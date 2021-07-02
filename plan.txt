@@ -14,16 +14,16 @@
 	[] send the text to the server
 [] both actions script
 	[] mix 2 old files to make the modern one
-[] server script
+[in progress] server script
 	[x] connect with server
 	[] check for password(every user)
 	[] get data from site
 	[] save data as file
-[] database
+[in progress] database
     [x] set database able for work
     [x] migrate django's data
     [x] plan your database
     # table
-    |user(varchar(255)|password(varchar(255))|
-    |6 glebov         |aboba                 |
-    [] set table so it will work with django
+    |username(varchar(255)|password(varchar(255))|
+    |6 glebov             |aboba                 |
+    [x] set table so it will work with django
