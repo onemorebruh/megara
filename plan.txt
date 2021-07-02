@@ -1,0 +1,29 @@
+[x] writing site
+	[x] design site
+	[x] made site's structure
+	[x] fix site's script so dialogue window will be just window but not another html
+[] finding file script
+	[x] open search line
+	[] find file by the name
+	[] show file on the other window
+[] writing file script
+	[x] show the editor so user can use it
+	[x] ability to write
+	[] read wrtitten strings
+	[] check for errors
+	[] send the text to the server
+[] both actions script
+	[] mix 2 old files to make the modern one
+[] server script
+	[x] connect with server
+	[] check for password(every user)
+	[] get data from site
+	[] save data as file
+[] database
+    [x] set database able for work
+    [x] migrate django's data
+    [x] plan your database
+    # table
+    |user(varchar(255)|password(varchar(255))|
+    |6 glebov         |aboba                 |
+    [] set table so it will work with django
