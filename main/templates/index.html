@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<head><title>remarks</title></head>
+	<center>
+		<h1>re<b>marks</b></h1>
+	</center>
+	<table class="right" id="menu">
+		<tr><td><form id="FindButton"><button><b>find</b></button></form></td><td><form id="WriteButton"><button>write</button></form></td></tr>
+	</table>
+	<body>
+		<p class="left">the most popular pages</p>
+		<script type="text/javascript" src="most_popular_pages.js">//shows 2 most popular public(for week) and 2 most popular user's pages
+		</script>
+	<script type="text/javascript" src="buttons.js">
+	</script>
+		{% block user %}<p class="right">user</p>{% endblock %}
+	<p class="left">about author:</p>
+			<table>
+				<tr><td>name</td><td>igor</td></tr>
+				<tr><td>email</td><td>rybakov.i.a.2002@gmail.com</td></tr>
+			</table>
+	</body>
+</html>
