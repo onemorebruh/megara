@@ -1,0 +1,91 @@
+center {
+	color: FireBrick;
+	background-color: LightGrey;
+	border-radius: 25px;}
+b {
+	color: MediumBlue;
+}
+h1 {
+	text-align: center;
+}
+html {
+	background-color: DarkSlateGrey;
+}
+p {
+	background-color: DarkRed;
+	color: Gold;
+	border-radius: 2px;
+	padding-left: 5px;
+}
+a {
+	color: FireBrick;
+}
+table {
+	color: MediumBlue;
+	background-color: LightGrey;
+	border-radius: 5px;
+}
+#dialoguebox {
+	margin: 1px;
+	padding: 10px;
+	height: 50%;
+	width: 37%;
+	display: inline-block;
+	background-color: LightGrey;
+	padding-left: 10px;
+	padding-top: 10px;
+	margin-left: 15px;
+	margin-top: 15px;
+	border-radius: 10px;
+	position: absolute;
+	right: 10%;
+}
+button {
+	color: DarkRed;
+	border-radius: 5px;
+}
+#menu {
+	position:absolute;
+	right: 40%;
+}
+#author {
+	bottom: 20px;
+}
+.left {
+	width: 45%;
+	height: 130%;
+}
+.right {
+	width: 50;
+	position: absolute;
+	right: 23%;
+}
+div p {
+	padding-top: 3px;
+	align: center;
+}
+input {
+	background-color: LightGrey;
+	color: Teal;
+	border-radius: 5px;
+}
+div .right {
+	right: 2%;
+	position: absolute;
+}
+#editor {
+	position: absolute;
+	top: 65px;
+	right: 10px;
+	background-color: White;
+}
+.editorbutton {
+	width: 49px;
+}
+textarea {
+	height: 80%;
+	width: 74%;
+	background-color: LightGrey;
+	border-radius: 7px;
+	color: Teal
+}
