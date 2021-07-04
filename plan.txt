@@ -12,18 +12,20 @@
 	[] read wrtitten strings
 	[] check for errors
 	[] send the text to the server
-[] both actions script
-	[] mix 2 old files to make the modern one
+[] change user script
+    [] you see the browser's id
+    [] textarea for writing browser's id
+    [] button that changes id to entered one
+    [] you are in system as another user
 [in progress] server script
 	[x] connect with server
-	[] check for password(every user)
 	[] get data from site
 	[] save data as file
-[in progress] database
+[x] database
     [x] set database able for work
     [x] migrate django's data
     [x] plan your database
-    # table
+    # table !!! it is useless now
     |username(varchar(255)|password(varchar(255))|
     |6 glebov             |aboba                 |
     [x] set table so it will work with django

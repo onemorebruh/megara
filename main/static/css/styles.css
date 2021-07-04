@@ -8,6 +8,9 @@ b {
 h1 {
 	text-align: center;
 }
+h3 {
+    color: MediumBlue;
+}
 html {
 	background-color: DarkSlateGrey;
 }
@@ -88,4 +91,14 @@ textarea {
 	background-color: LightGrey;
 	border-radius: 7px;
 	color: Teal
+}
+#login {
+	position: absolute;
+	align:center;
+	height: 120px;
+	text-align: center;
+	background: LightGrey;
+	border-radius: 10px;
+	top: 30%;
+	left: 53%;
 }
