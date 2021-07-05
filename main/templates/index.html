@@ -6,13 +6,16 @@
 	<head><title>remarks</title></head>
 	<center>
 		<h1>re<b>marks</b></h1>
+		<form name="myform" action="/update-model/" method="post">
+			<input type="hidden" name="update" value="yes">
+		</form>
 	</center>
 	<table class="right" id="menu">
 		<tr><td><form id="FindButton"><button><b>find</b></button></form></td><td><form id="WriteButton"><button>write</button></form></td></tr>
 	</table>
 	<body>
 	<div id="login">
-		<p>you are logged as {{ id }}</p>
+		<p>you are logged as {{ username }}</p>
 		<form id="ReLog"><button>log in as another user</button></form>
 		<form id="Copy"><button>Copy id</button></form>
 	</div>
@@ -21,7 +24,8 @@
 		</script>
 	<script type="text/javascript" src="{% static 'javascript/buttons.js' %}">
 	</script>
-
+	<script type="text/javascript" src="{% static 'javascript/count.js' %}">
+	</script>
 	<p class="left">about author:</p>
 			<table>
 				<tr><td>name</td><td>igor</td></tr>

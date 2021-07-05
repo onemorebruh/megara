@@ -13,7 +13,7 @@ class remarks_users(models.Model):
 
     # methods
     def get_absolute_url(self):
-        return reverse('remarks-detail', args=[str(self.id)]) # почему это работает и помечено как ошибка одновременно
+        return reverse('remarks-detail', args=[str(self.id)])  # почему это работает и помечено как ошибка одновременно
 
     def __str__(self):
         return self.username

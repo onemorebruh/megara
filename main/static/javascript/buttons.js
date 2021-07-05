@@ -1,4 +1,4 @@
-var new_remark_name, id;
+var new_remark_name, window;
 FindButton.addEventListener('click', {
 	handleEvent(event) {
 		document.body.innerHTML += '<div class="right" id="dialoguebox"><p>find remark</p><form id="search1"><input id="search" name="FindSearch" placeholder="type here" type="search"><br><input type="checkbox" id="inPublic" name="inPublic" checked><label for="inPublic">search in public files too</label><br><input type="checkbox" id="inText" name="inText"><lable for="inText">search inside of file</label></form></div>';// here will be line for searching which opens md docs as txt
@@ -12,6 +12,6 @@ new_remark_name = prompt("write the name of your new remark");
 });
 ReLog.addEventListener('click',{
 	handleEvent(event) {
-new_remark_name = prompt("write the id");
+	// open host/remarks/log-in
     }
 });
