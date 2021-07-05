@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [  # here remarks/name_of_page directories lies
     path('', views.index, name='index'),
-    path('log-in', views.login)
+    path('login', views.login)
 ]

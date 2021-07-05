@@ -25,15 +25,13 @@ for i in directory:
 send data as valuable
 save data it .md file
 
-[] change user script
-    [] you see the browser's id
-    [] textarea for writing browser's id
+[in progress] change user script
+    [x] you see the browser's id
+    [x] textarea for writing browser's id
     [] button that changes id to entered one
     [] you are in system as another user
-[in progress] server script
-	[x] connect with server
-	[] get data from site
-	[] save data as file
+    [x] button opens login site
+    [] buttons opens homepage back but by entered data
 [x] database
     [x] set database able for work
     [x] migrate django's data

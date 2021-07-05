@@ -4,7 +4,7 @@ from .models import remarks_users
 
 def index(request):
     # here QuerySet objects lies(like in the next comment)
-    username = remarks_users.objects.fliter(username__contains='username') # here must be data from log-in
+    username = remarks_users.objects.filter(username__contains='username') # here must be data from login
     browser_id = request.session.session_key
     return render(
         request,
