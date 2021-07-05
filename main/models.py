@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 
 # Create your models here.
@@ -17,3 +18,7 @@ class remarks_users(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class RenewBookForm(forms.Form):
+    username = forms.CharField(help_text="username")
