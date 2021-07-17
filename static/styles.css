@@ -89,3 +89,24 @@ textarea {
 	border-radius: 7px;
 	color: Teal
 }
+#login {
+	position: absolute;
+	align:center;
+	height: 120px;
+	text-align: center;
+	background: LightGrey;
+	border-radius: 10px;
+	top: 30%;
+	left: 53%;
+}
+#log-in {
+    position: absolute;
+	align:center;
+	width: 250px;
+	height: 200px;
+	text-align: center;
+	background: LightGrey;
+	border-radius: 10px;
+	top: 30%;
+	left: 41%;
+}
