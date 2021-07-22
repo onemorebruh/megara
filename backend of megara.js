@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const fs = require("fs");
 const jsonParser = express.json();
 const mysql = require("mysql2");
 const connection = mysql.createConnection({
@@ -8,8 +9,17 @@ const connection = mysql.createConnection({
 	database: "megara",
 	password: "Password123#@!"
 });
-var usme="not saved (",
-    pawd="not saved (";
+function log(usme, pawd) {
+    let now = new Date();
+    let hour = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    let data = `${hour}:${minutes}:${seconds} ${usme}`;
+    console.log("\n" + data);
+};
+var usme="guest",
+    pawd="guest",
+    free_access=true;// todo add config
 
 //catch aunthefication data
 app.post("/user", jsonParser, function (request, response) {
@@ -26,25 +36,40 @@ app.post("/user", jsonParser, function (request, response) {
           return console.error("Ошибка: " + err.message);
         }
         else{
-          console.log("Подключение к серверу MySQL успешно установлено");
+          console.log("MySQL database is conected succesfully");
         }
     });
         if (request.body.username != null){// tries to find user in db
-            connection.query("SELECT password FROM users WHERE username = '"+ request.body.username +"'", function(err, results) {
+            connection.query("SELECT password FROM users WHERE username = '"+ usme +"'", function(err, results) {
                 if(err) console.log(err);
-                try{//get password and check it
-                    console.log(results[0].password);
-                    console.log(request.body.password);
-                    if (results[0].password == pawd){
-                        //succes!!! user moves to the homepage
-                        response.redirect('')
-                    } else {
-                        alert("acces denied")
-                    };
-                } catch {// can't find username
-
-                }
+                
               });
+            try{//get password and check it
+                console.log("###try###");// anyone can enter
+
+                                         // maybe pawd and results[0].password lost somewhere
+                console.log(results[0].password);
+                console.log(pawd);
+                if (results[0].password == pawd){
+                    //succes!!! user moves to the homepage
+                    response.redirect('')
+                } else {
+                    alert("acces denied")
+                };
+            } catch (err){// can't find username
+                /*
+                let line = [usme, pawd];
+                let dbrequest = "INSERT INTO users(username, password) VALUES(?, ?)";
+                try {
+                    connection.query(dbrequest, line);
+                        console.log("user succesfully added to database");
+                        response.redirect('');
+                } catch (err) {
+                    console.log(err)
+                    console.log(usme + "'s registration failed, password was: " + pawd)
+                };
+                */
+                };
             /*
             / here must be check
             / is username in db at all?
@@ -55,12 +80,34 @@ app.post("/user", jsonParser, function (request, response) {
         
 });
 
+app.post("/write", jsonParser, function (request, response) {
+    console.log("###file###")
+    if(!request.body) return response.sendStatus(400);
+	//write file with sended text on it
+	let text_of_file = request.body.text;
+    let title = request.body.title
+	console.log(text_of_file);
+    if (!fs.existsSync("files/" + usme)){
+        fs.mkdirSync("files/" + usme);
+    }
+	let file_content = fs.writeFileSync("files/" + usme + "/" + title + "-" + usme +".md" , text_of_file);
+	//send it back
+	response.json(request.body);
+});
+
+app.post("/find", jsonParser, function (request, response) {
+    console.log(request.body);
+    if(!request.body) return response.sendStatus(400);
+     
+    response.json(request.body); // отправляем пришедший ответ обратно
+});
+
 app.get("/", function(request, response){//this code does work
     console.log("username: " + usme);
     console.log("password: " + pawd);
     //check for aunthefication data
     try{
-        switch("not saved ("){
+        switch("guest"){
             // variants of data for aunthefication
             case usme:
                 console.log("usme: " + usme)
@@ -81,38 +128,22 @@ app.get("/", function(request, response){//this code does work
         response.redirect("login");
     }
 
-    //logging
-    let now = new Date();
-    let hour = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    let data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
-    console.log(data);
-    //logging
+    log(usme, pawd);
+    console.log(`${request.method} ${request.url} ${request.get("user-agent")}`);
 });
+
+
 
 app.get("/about", function(request, response, next){
     response.sendFile(__dirname + "/static/about/index.html");
-    //logging
-    let now = new Date();
-    let hour = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    let data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
-    console.log(data);
-    //logging
+    log(usme, pawd);
+    console.log(`${request.method} ${request.url} ${request.get("user-agent")}`);
 });
 
 app.get("/login", function(request, response, next){
     response.sendFile(__dirname + "/static/login/index.html");
-    //logging
-    let now = new Date();
-    let hour = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    let data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
-    console.log(data);
-    //logging
+    log(usme, pawd);
+    console.log(`${request.method} ${request.url} ${request.get("user-agent")}`);
 });
 app.use(express.static(__dirname + "/static"));
 app.listen(3000);

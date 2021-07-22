@@ -18,26 +18,26 @@
 >        pass
 >```
 
-[] writing file script
+[mvp] writing file script
 >[x] show the editor so user can use it
 >[x] ability to write
->[] read wrtitten strings
+>[x] read wrtitten strings
 >[] check for errors
->[] send the text to the server
->[] save the text as username/id-name.md
+>[x] send the text to the server
+>[x] save the text as username/id-name.md
 
-[in progress] change user script
->[in progress] check for id / username + password
->[in progress] aunthefication
->>[] don't add data by get, but send it by post
->>[] cath post
->>[] redirect to the homepage
+[mvp] change user script
+>[mvp] check for id / username + password
+>[mvp] aunthefication
+>>[x] don't add data by get, but send it by post
+>>[x] cath post
+>>[x] redirect to the homepage
 >[] you see the username/id
 >[x] textarea for writing browser's id
 >[] button that changes id to entered one
->[] you are in system as another user
+>[x] you are in system as another user
 >[] button opens login site
->[] buttons opens homepage back but by entered data
+>[x] buttons opens homepage back but by entered data
 [x] database
 >[x] set database able for work
 >[x] plan your database

@@ -16,6 +16,5 @@ document.getElementById("LoginButton").addEventListener("click", function (e) {
 		console.log(receivedUser.username + " - " + receivedUser.password);
         });
         request.send(user);
-        setTimeout(function(){;window.location.href = "http://127.0.0.1:3000";}, 5000);
-        
+        setTimeout(function(){;window.location.href = "http://127.0.0.1:3000";}, 1000);
 });

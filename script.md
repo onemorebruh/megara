@@ -17,3 +17,11 @@ user adds id
     - `-` programm adds new user by id
     - `+` programm redirects to 
 # homepage
+## write
+- click on the write button
+    - site asks you to enter page's name
+        - site saves page as .md in user's own directory
+## find 
+## about
+## log out
+## who am i
