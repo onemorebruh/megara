@@ -38,11 +38,24 @@ WriteButton.addEventListener('click',{
 			request.open("POST", "/write", true);   
 			request.setRequestHeader("Content-Type", "application/json");
 			request.addEventListener("load", function () {
-				let receivedUser = JSON.parse(request.response);
-				console.log("response " + receivedUser.text);
+				let written_text = JSON.parse(request.response);
+				console.log("response " + written_text.text);
 			});
 			request.send(post);
 		});
 	}
 });
 
+WhoAmIButton.addEventListener('click', function (e) {
+	e.preventDefault();
+	let post = JSON.stringify({action: 'WhoAmI'});
+	let request = new XMLHttpRequest();
+	request.open("POST", "/action", true);   
+	request.setRequestHeader("Content-Type", "application/json");
+	request.addEventListener("load", function () {
+		let action = JSON.parse(request.response);
+		console.log(action.action);
+		alert(action.action);
+	});
+	request.send(post);
+});

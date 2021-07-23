@@ -79,7 +79,7 @@ app.post("/user", jsonParser, function (request, response) {
         };
         
 });
-
+// writing file
 app.post("/write", jsonParser, function (request, response) {
     console.log("###file###")
     if(!request.body) return response.sendStatus(400);
@@ -94,7 +94,7 @@ app.post("/write", jsonParser, function (request, response) {
 	//send it back
 	response.json(request.body);
 });
-
+// finding file
 app.post("/find", jsonParser, function (request, response) {
     console.log("###find###")
     console.log("post " + request.body.name, request.body.InPublic, request.body.InText);
@@ -121,9 +121,28 @@ app.post("/find", jsonParser, function (request, response) {
     }
     }
     console.log("found files" + found_files);
-    response.json(found_files); // отправляем пришедший ответ обратно
+    response.json(found_files);
 });
+//actions
+/*
+WhoAmI - shows alert where user sees username
 
+*/
+app.post("/action", jsonParser, function (request, response) {
+    console.log("###action###")
+    console.log("post " + request.body.action);
+    var action
+    switch (request.body.action){//i can ad more actons later
+        case "WhoAmI":
+            action = {action: usme};
+            break;
+        default:
+            action = {action: usme};
+            break;
+    }
+    response.json(action);
+});
+//sites
 app.get("/", function(request, response){//this code does work
     console.log("username: " + usme);
     console.log("password: " + pawd);
