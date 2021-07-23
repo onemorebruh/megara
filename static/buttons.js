@@ -6,8 +6,8 @@ FindButton.addEventListener('click', {
 		SearchButton.addEventListener("click", function (e) {
 			e.preventDefault();
 			let name = document.getElementById("Search").value;
-			let InPublic = document.getElementById("InPublic").value;
-			let InText = document.getElementById("InText").value
+			let InPublic = document.getElementById("InPublic").checked;
+			let InText = document.getElementById("InText").checked;
 			console.log("variables " + name, InPublic, InText);
 			let post = JSON.stringify({name: name, InPublic: InPublic, InText: InText});
 			let request = new XMLHttpRequest();

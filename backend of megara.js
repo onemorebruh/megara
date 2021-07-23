@@ -110,6 +110,16 @@ app.post("/find", jsonParser, function (request, response) {
             found_files.push(list_of_files[number]);
         };
     }
+    if (request.body.InPublic == true) {
+        let list_of_files = fs.readdirSync(__dirname + "/files/public/");
+    console.log("files" + list_of_files)
+    // filter files
+    for (var number in list_of_files){
+        if (list_of_files[number].includes(current_name)){
+            found_files.push(list_of_files[number]);
+        };
+    }
+    }
     console.log("found files" + found_files);
     response.json(found_files); // отправляем пришедший ответ обратно
 });
