@@ -23,5 +23,8 @@ user adds id
         - site saves page as .md in user's own directory
 ## find 
 ## about
+- redirect to the about page
 ## log out
+- redirect to the login page
 ## who am i
+- alert(usme)

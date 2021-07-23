@@ -96,10 +96,22 @@ app.post("/write", jsonParser, function (request, response) {
 });
 
 app.post("/find", jsonParser, function (request, response) {
-    console.log(request.body);
+    console.log("###find###")
+    console.log("post " + request.body.name, request.body.InPublic, request.body.InText);
     if(!request.body) return response.sendStatus(400);
-     
-    response.json(request.body); // отправляем пришедший ответ обратно
+    //read files' names
+    let current_name = request.body.name;//post must have name in it
+    let list_of_files = fs.readdirSync(__dirname + "/files/" + usme);
+    console.log("files" + list_of_files)
+    // filter files
+    let found_files = [];
+    for (var number in list_of_files){
+        if (list_of_files[number].includes(current_name)){
+            found_files.push(list_of_files[number]);
+        };
+    }
+    console.log("found files" + found_files);
+    response.json(found_files); // отправляем пришедший ответ обратно
 });
 
 app.get("/", function(request, response){//this code does work

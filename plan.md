@@ -4,19 +4,11 @@
 >[x] made site's structure
 >[x] fix site's script so dialogue window will be just window but not another html
 >[] re design site !!! at the end
-[] finding file script
+
+[mvp] finding file script
 >[x] open search line
->[] find file by the name
+>[x] find file by the name
 >[] show file on the other window
-## script
->read data form search use like that:
->```
->for i in directory:
->    if data in i:
->        use it in programm
->    else:
->        pass
->```
 
 [mvp] writing file script
 >[x] show the editor so user can use it
