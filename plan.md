@@ -24,11 +24,11 @@
 >>[x] don't add data by get, but send it by post
 >>[x] cath post
 >>[x] redirect to the homepage
->[] you see the username/id
+>[x] you see the username/id
 >[x] textarea for writing browser's id
 >[] button that changes id to entered one
 >[x] you are in system as another user
->[] button opens login site
+>[x] button opens login site
 >[x] buttons opens homepage back but by entered data
 [x] database
 >[x] set database able for work

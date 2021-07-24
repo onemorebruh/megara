@@ -1,6 +1,6 @@
 {
-  "name": "backend /of /remarks.js",
-  "version": "0.0.1",
+  "name": "backend of megara.js",
+  "version": "1.0.0",
   "dependencies": {
     "express": "^4.17.1",
     "mysql2": "^2.2.5"

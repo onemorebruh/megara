@@ -19,13 +19,13 @@ function log(usme, pawd) {
 };
 var usme="guest",
     pawd="guest",
+    answer="-"
     free_access=true;// todo add config
 
 //catch aunthefication data
 app.post("/user", jsonParser, function (request, response) {
     console.log('###post###');
     if(!request.body) return response.sendStatus(400);
-    response.json(request.body);
     usme = request.body.username;
     console.log(usme);
     pawd = request.body.password;
@@ -39,46 +39,33 @@ app.post("/user", jsonParser, function (request, response) {
           console.log("MySQL database is conected succesfully");
         }
     });
-        if (request.body.username != null){// tries to find user in db
-            connection.query("SELECT password FROM users WHERE username = '"+ usme +"'", function(err, results) {
-                if(err) console.log(err);
+    connection.query("SELECT password FROM users where username = '" + usme + "'", function(err, results){
+        if(err) console.log(err);
+        try{
+            if(results[0].password == pawd){
+                console.log("do not catch");
+                answer = "+";
+                response.json(answer);
+            } else {
+                console.log("permission denied");
                 
-              });
-            try{//get password and check it
-                console.log("###try###");// anyone can enter
-
-                                         // maybe pawd and results[0].password lost somewhere
-                console.log(results[0].password);
-                console.log(pawd);
-                if (results[0].password == pawd){
-                    //succes!!! user moves to the homepage
-                    response.redirect('')
-                } else {
-                    alert("acces denied")
-                };
-            } catch (err){// can't find username
-                /*
-                let line = [usme, pawd];
-                let dbrequest = "INSERT INTO users(username, password) VALUES(?, ?)";
-                try {
-                    connection.query(dbrequest, line);
-                        console.log("user succesfully added to database");
-                        response.redirect('');
-                } catch (err) {
-                    console.log(err)
-                    console.log(usme + "'s registration failed, password was: " + pawd)
-                };
-                */
-                };
-            /*
-            / here must be check
-            / is username in db at all?
-            / if there is no such user then programm have to create new one
-            / if it finds such user then user gets message "acces denied"
-            */
-        };
-        
+            }
+        } catch(err) {
+            console.log("catch");
+            let line = [usme, pawd];
+            let dbrequest = "INSERT INTO users(username, password) VALUES(?, ?)";
+            try {
+                connection.query(dbrequest, line);
+                    console.log("user succesfully added to database");
+            } catch (err) {
+                console.log(err)
+                console.log(usme + "'s registration failed, password was: " + pawd)
+            };
+        }
+    })
+    
 });
+
 // writing file
 app.post("/write", jsonParser, function (request, response) {
     console.log("###file###")
