@@ -5,10 +5,12 @@
 >[x] fix site's script so dialogue window will be just window but not another html
 >[] re design site !!! at the end
 
-[mvp] finding file script
+[pre mvp] finding file script
 >[x] open search line
 >[x] find file by the name
 >[] show file on the other window
+>[] to publish file in public folder
+>[] delete file
 
 [mvp] writing file script
 >[x] show the editor so user can use it
@@ -17,6 +19,8 @@
 >[] check for errors
 >[x] send the text to the server
 >[x] save the text as username/id-name.md
+>[] add image
+>[] view
 
 [mvp] change user script
 >[mvp] check for id / username + password

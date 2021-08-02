@@ -14,8 +14,8 @@ document.getElementById("LoginButton").addEventListener("click", function (e) {
         request.addEventListener("load", function () {
                 let answer = JSON.parse(request.response); //check data by myself
                 console.log(answer)
-                setTimeout(function(){;if (answer == "+"){//server doesn't send json back but it have to
-                        window.location.href = "http://127.0.0.1:3000";
+                setTimeout(function(){;if (answer.answer == "+"){//server doesn't send json back but it have to
+                        window.location.href = "http://" + answer.ip;
                         } else{
                         document.body.innerHTML += '<div class="alert"><h>permission denied</h></div>'
                 }}, 1000);

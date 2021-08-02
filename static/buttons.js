@@ -17,7 +17,7 @@ FindButton.addEventListener('click', {
 				let found_data = JSON.parse(request.response);
 				console.log("response " + found_data);
 				for(var number in found_data){
-					document.body.innerHTML += '<tr><td><div><form id="file' + number + '" class="FoundFile"><p>' + found_data[number] + '</p><button id="Edit">edit</button><button id="Delete">delete</button><button id="Publish">to publish</button></form></div></td></tr>';
+					document.body.innerHTML += '<tr><td><div><form id="file' + number + '" class="FoundFile"><p>' + found_data[number] + '</p><button id="Edit' + number + '" onclick="edit(' + number + ')">edit</button><button id="Delete' + number + '">delete</button><button id="Publish' + number + '">to publish</button></form></div></td></tr>';
 				};
 			});
 			request.send(post);//send message to the server
@@ -58,4 +58,27 @@ WhoAmIButton.addEventListener('click', function (e) {
 		alert(action.action);
 	});
 	request.send(post);
+});
+
+function edit(number){
+	let post = JSON.stringify({action: 'Edit', number: number});
+	console.log({action: 'Edit', number: number})
+	let request = new XMLHttpRequest();
+	request.open("POST", "/action", true);
+	request.setRequestHeader("Content-Type", "application/json");
+	request.addEventListener("load", function () {
+		let action = JSON.parse(request.response);
+		console.log('post ' + action);
+	});
+	request.send(post);
+	setTimeout(function(){}, 5000);
+}
+//not finished
+RelogButton.addEventListener('click', function (e) {
+	document.body.innerHTML += "";
+	window.location.href = (window.location + "login").replace("?", "");
+});
+AboutButton.addEventListener('click', function (e) {
+	document.body.innerHTML += "";
+	window.location.href = (window.location + "about").replace("?", "");
 });

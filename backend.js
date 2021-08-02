@@ -3,6 +3,7 @@ const app = express();
 const fs = require("fs");
 const jsonParser = express.json();
 const mysql = require("mysql2");
+const { runInNewContext } = require("vm");
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
@@ -20,7 +21,9 @@ function log(usme, pawd) {
 var usme="guest",
     pawd="guest",
     answer="-"
-    free_access=true;// todo add config
+    free_access=true,
+    ip=process.argv[2],
+    port=process.argv[3];// todo add config
 
 //catch aunthefication data
 app.post("/user", jsonParser, function (request, response) {
@@ -44,7 +47,7 @@ app.post("/user", jsonParser, function (request, response) {
         try{
             if(results[0].password == pawd){
                 console.log("do not catch");
-                answer = "+";
+                answer = {answer: "+", ip:ip + ":" + port };
                 response.json(answer);
             } else {
                 console.log("permission denied");
@@ -113,7 +116,7 @@ app.post("/find", jsonParser, function (request, response) {
 //actions
 /*
 WhoAmI - shows alert where user sees username
-
+Edit - shows text of file.md
 */
 app.post("/action", jsonParser, function (request, response) {
     console.log("###action###")
@@ -123,8 +126,13 @@ app.post("/action", jsonParser, function (request, response) {
         case "WhoAmI":
             action = {action: usme};
             break;
+	case "Edit":
+		    // todo open file
+		    console.log(found_files[request.body.number]);
+            action = {action: "reading files"};
+		    break;
         default:
-            action = {action: usme};
+            action = "something went wrong";
             break;
     }
     response.json(action);
@@ -174,4 +182,4 @@ app.get("/login", function(request, response, next){
     console.log(`${request.method} ${request.url} ${request.get("user-agent")}`);
 });
 app.use(express.static(__dirname + "/static"));
-app.listen(3000);
+app.listen(port, ip);
