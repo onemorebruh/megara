@@ -49,7 +49,6 @@ WriteButton.addEventListener('click',{
 });
 
 WhoAmIButton.addEventListener('click', function (e) {
-	console.log(e);
 	e.preventDefault();
 	let post = JSON.stringify({action: 'WhoAmI'});
 	let request = new XMLHttpRequest();
@@ -65,15 +64,16 @@ WhoAmIButton.addEventListener('click', function (e) {
 
 function edit(number){
 	var request = new XMLHttpRequest();
-	request.open("POST", "/action", true);
+	request.open("POST", "/action", false);
 	request.setRequestHeader("Content-Type", "application/json");
 	request.addEventListener("load", function () {
 		let action = JSON.parse(request.response);
-		console.log(action.action);
+		document.body.innerHTML += '<div class="right" id="DialogueBox"><p>' + action.title + '</p><textarea name="NewRemark" id="Text"># ' + action.text + '</textarea><table id="editor"><tr><td><form id="save"><button class="editorbutton" id="SaveButton">save</button></form></td></tr><tr><td><form id="view"><button class="editorbutton">view</button></form></td></tr><tr><td><form id="addimage"><button class="editorbutton">add<br>image</button></form></td></tr></table></div>';
 	});
 	let post = JSON.stringify({action: 'Edit', number: number});
 	console.log(post);
 	request.send(post);
+	
 }
 
 
