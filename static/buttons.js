@@ -1,7 +1,8 @@
+"use strict";
 var new_remark_name;
 //find
 FindButton.addEventListener('click', {
-	handleEvent(event) {
+	handleEvent(event) {//writes menu
 		document.body.innerHTML += '<div class="right" id="DialogueBox"><p>find remark</p><form id="search1"><input id="Search" name="FindSearch" placeholder="type here" type="search"><br><input type="checkbox" id="InPublic" name="InPublic" checked><label for="InPublic">search in public files too</label><br><input type="checkbox" id="InText" name="InText"><lable for="InText">search inside of file</label><br><button type="submit" id="SearchButton">find</button></form></div>';// here will be line for searching which opens md docs as txt
 		SearchButton.addEventListener("click", function (e) {
 			e.preventDefault();
@@ -16,7 +17,7 @@ FindButton.addEventListener('click', {
 			request.addEventListener("load", function () {
 				let found_data = JSON.parse(request.response);
 				console.log("response " + found_data);
-				for(var number in found_data){
+				for(var number in found_data){//writes each file as div *name* Edit Delete to publish
 					document.body.innerHTML += '<tr><td><div><form id="file' + number + '" class="FoundFile"><p>' + found_data[number] + '</p><button id="Edit' + number + '" onclick="edit(' + number + ')">edit</button><button id="Delete' + number + '">delete</button><button id="Publish' + number + '">to publish</button></form></div></td></tr>';
 				};
 			});
@@ -26,9 +27,10 @@ FindButton.addEventListener('click', {
 });
 //write
 WriteButton.addEventListener('click',{
-	handleEvent(event) {
+	handleEvent(event) {//writes field for text
 		new_remark_name = prompt("write the name of your new remark");
 		document.body.innerHTML += '<div class="right" id="DialogueBox"><p>' + new_remark_name + '</p><textarea name="NewRemark" id="Text"># ' + new_remark_name + '</textarea><table id="editor"><tr><td><form id="save"><button class="editorbutton" id="SaveButton">save</button></form></td></tr><tr><td><form id="view"><button class="editorbutton">view</button></form></td></tr><tr><td><form id="addimage"><button class="editorbutton">add<br>image</button></form></td></tr></table></div>';//it have to open text edditor
+		//logic of buttons inside of field
 		SaveButton.addEventListener('click', function (e) {
 			e.preventDefault();
 			text = document.getElementById("Text").value;
@@ -47,6 +49,7 @@ WriteButton.addEventListener('click',{
 });
 
 WhoAmIButton.addEventListener('click', function (e) {
+	console.log(e);
 	e.preventDefault();
 	let post = JSON.stringify({action: 'WhoAmI'});
 	let request = new XMLHttpRequest();
@@ -61,19 +64,19 @@ WhoAmIButton.addEventListener('click', function (e) {
 });
 
 function edit(number){
-	let post = JSON.stringify({action: 'Edit', number: number});
-	console.log({action: 'Edit', number: number})
-	let request = new XMLHttpRequest();
+	var request = new XMLHttpRequest();
 	request.open("POST", "/action", true);
 	request.setRequestHeader("Content-Type", "application/json");
 	request.addEventListener("load", function () {
 		let action = JSON.parse(request.response);
-		console.log('post ' + action);
+		console.log(action.action);
 	});
+	let post = JSON.stringify({action: 'Edit', number: number});
+	console.log(post);
 	request.send(post);
-	setTimeout(function(){}, 5000);
 }
-//not finished
+
+
 RelogButton.addEventListener('click', function (e) {
 	document.body.innerHTML += "";
 	window.location.href = (window.location + "login").replace("?", "");

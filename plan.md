@@ -8,7 +8,7 @@
 [pre mvp] finding file script
 >[x] open search line
 >[x] find file by the name
->[] show file on the other window
+>[] show file
 >[] to publish file in public folder
 >[] delete file
 
@@ -30,7 +30,6 @@
 >>[x] redirect to the homepage
 >[x] you see the username/id
 >[x] textarea for writing browser's id
->[] button that changes id to entered one
 >[x] you are in system as another user
 >[x] button opens login site
 >[x] buttons opens homepage back but by entered data
@@ -38,8 +37,8 @@
 >[x] set database able for work
 >[x] plan your database
 >## table 
->|username(varchar(255)|password(varchar(255))|id(mediumtext)
->|---|---|---|
->|6 glebov             |aboba                 |sthrjdhmjdghmfghm
+>|username(varchar(255)|password(varchar(255))|
+>|---|---|
+>|6 glebov             |aboba                 |
 >
 >[x] set table so it will work with express

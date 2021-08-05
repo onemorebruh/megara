@@ -23,8 +23,8 @@ var usme="guest",
     answer="-"
     free_access=true,
     ip=process.argv[2],
-    port=process.argv[3];// todo add config
-
+    port=process.argv[3],
+    found_files=[];// todo add config
 //catch aunthefication data
 app.post("/user", jsonParser, function (request, response) {
     console.log('###post###');
@@ -86,6 +86,7 @@ app.post("/write", jsonParser, function (request, response) {
 });
 // finding file
 app.post("/find", jsonParser, function (request, response) {
+    global.found_files = [];
     console.log("###find###")
     console.log("post " + request.body.name, request.body.InPublic, request.body.InText);
     if(!request.body) return response.sendStatus(400);
@@ -94,10 +95,9 @@ app.post("/find", jsonParser, function (request, response) {
     let list_of_files = fs.readdirSync(__dirname + "/files/" + usme);
     console.log("files" + list_of_files)
     // filter files
-    let found_files = [];
     for (var number in list_of_files){
         if (list_of_files[number].includes(current_name)){
-            found_files.push(list_of_files[number]);
+            global.found_files.push(list_of_files[number]);
         };
     }
     if (request.body.InPublic == true) {
@@ -106,12 +106,12 @@ app.post("/find", jsonParser, function (request, response) {
     // filter files
     for (var number in list_of_files){
         if (list_of_files[number].includes(current_name)){
-            found_files.push(list_of_files[number]);
+            global.found_files.push(list_of_files[number]);
         };
     }
     }
-    console.log("found files" + found_files);
-    response.json(found_files);
+    console.log("found files" + global.found_files);
+    response.json(global.found_files);
 });
 //actions
 /*
@@ -126,15 +126,16 @@ app.post("/action", jsonParser, function (request, response) {
         case "WhoAmI":
             action = {action: usme};
             break;
-	case "Edit":
-		    // todo open file
-		    console.log(found_files[request.body.number]);
-            action = {action: "reading files"};
-		    break;
+	    case "Edit":
+		    // open file !!! does not open public files
+            let text = fs.readFileSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number], "utf8");
+            action = {title: (global.found_files[request.body.number]).replace("-" + usme + ".md", ""), text: text}
+            break;
         default:
-            action = "something went wrong";
+            action = "something is wrong";
             break;
     }
+    console.log(action);
     response.json(action);
 });
 //sites
