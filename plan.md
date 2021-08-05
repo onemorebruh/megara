@@ -8,9 +8,10 @@
 [pre mvp] finding file script
 >[x] open search line
 >[x] find file by the name
->[] show file
->[] to publish file in public folder
->[] delete file
+>[x] show file
+>[x] edit file
+>[x] to publish file in public folder
+>[x] delete file
 
 [mvp] writing file script
 >[x] show the editor so user can use it

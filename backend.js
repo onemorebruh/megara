@@ -76,11 +76,13 @@ app.post("/write", jsonParser, function (request, response) {
 	//write file with sended text on it
 	let text_of_file = request.body.text;
     let title = request.body.title
+    console.log(title);
 	console.log(text_of_file);
-    if (!fs.existsSync("files/" + usme)){
-        fs.mkdirSync("files/" + usme);
+    console.log("files/" + usme + "/" + title + "-" + usme +".md");
+    if (!fs.existsSync(__dirname + "/files/" + usme)){
+        fs.mkdirSync(__dirname + "/files/" + usme);
     }
-	let file_content = fs.writeFileSync("files/" + usme + "/" + title + "-" + usme +".md" , text_of_file);
+	let file_content = fs.writeFileSync(__dirname + "/files/" + usme + "/" + title + "-" + usme +".md" , text_of_file);
 	//send it back
 	response.json(request.body);
 });
@@ -117,19 +119,35 @@ app.post("/find", jsonParser, function (request, response) {
 /*
 WhoAmI - shows alert where user sees username
 Edit - shows text of file.md
+Delete - deletes file
+Publish - publicates file in "public" directory
 */
 app.post("/action", jsonParser, function (request, response) {
     console.log("###action###")
     console.log("post " + request.body.action);
-    var action
+    var action, text;
     switch (request.body.action){//i can ad more actons later
         case "WhoAmI":
             action = {action: usme};
             break;
 	    case "Edit":
 		    // open file !!! does not open public files
-            let text = fs.readFileSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number], "utf8");
-            action = {title: (global.found_files[request.body.number]).replace("-" + usme + ".md", ""), text: text}
+            text = fs.readFileSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number], "utf8");
+            action = {title: (global.found_files[request.body.number]).replace("-" + usme + ".md", ""), text: text, name: usme}
+            break;
+        case "Delete":
+            fs.unlinkSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number]);
+            action = {}
+            break;
+        case "Publish":
+            text = fs.readFileSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number], "utf8");
+            console.log("test")
+            fs.writeFile(__dirname + "/files/public/" + global.found_files[request.body.number], text,function(){
+                fs.unlinkSync(__dirname + "/files/" + usme + "/" + global.found_files[request.body.number])
+                ;})
+            console.log("test")
+            console.log("test")
+            action = {}
             break;
         default:
             action = "something is wrong";
