@@ -13,7 +13,7 @@
   "author": "ira",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "mongoose": "^6.1.8"
