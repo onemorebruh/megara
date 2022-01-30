@@ -1,0 +1,21 @@
+{
+  "name": "megara",
+  "version": "2.0.0",
+  "description": "light web cloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mongodb",
+    "express"
+  ],
+  "author": "ira",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.1.8"
+  }
+}
