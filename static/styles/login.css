@@ -32,6 +32,7 @@ button {
 }
 
 input {
+    background-color: #f5f5f5;
     margin: 0.25em;
     height: 2em;
     padding: 5px;
@@ -64,6 +65,7 @@ header h1 {
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 #loginForm {
