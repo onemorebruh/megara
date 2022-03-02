@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 mongoose.connect("mongodb://localhost:27017/megara", { useUnifiedTopology: true, useNewUrlParser: true });
 const User = require("./model/users");
-const cockies = require("./model/cockies");
 describe("actions with user", function() {
 
     it("add and find user", function() {

@@ -51,11 +51,20 @@ color  | place
 - [] choose svgs
 - [] design lists
 
+
+[] admin
+- [x] admin model in database
+- [] admin panel
+- [] acces to the database via webpage
+
 [] logic
-- [] check for existing in db when registration
+- [x] check for existing in db when registration
 - [x] check for existing in db when login
-- [] login
-- [] sessions
+- [] validation
+- [x] login
+- - [] fix redirects when login or sign up
+
+- [x] sessions
 - [] personsal storages
 
 [] tests
