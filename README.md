@@ -9,12 +9,12 @@ megara is a simple cloud server for easy saving data on your local network
 ### design
 #### colors
 
-color  | place
--------|----------
-#f5f5f5| background
-#b23c17| blocks
-#808080| shadow
-#b23c17| buttons
+| color   | place      |
+| ------- | ---------- |
+| #f5f5f5 | background |
+| #ff784e | blocks     |
+| #808080 | shadow     |
+| #b23c17 | buttons    |
 
 ## avalibale functions
 ---
@@ -46,26 +46,32 @@ color  | place
 
 ## TODO
 ---
-[] design
-- [] choose fonts
-- [] choose svgs
-- [] design lists
+[ ] design
+- [ ] choose fonts
+- [ ] choose svgs
+- [x] editor template
+- [x] card template
+- [x] search line template
 
-
-[] admin
+[ ] admin
 - [x] admin model in database
-- [] admin panel
-- [] acces to the database via webpage
+- [ ] admin panel
+- [ ] acces to the database via webpage
 
-[] logic
+[ ] logic
 - [x] check for existing in db when registration
 - [x] check for existing in db when login
-- [] validation
+- [ ] validation
 - [x] login
-- - [] fix redirects when login or sign up
+- - [x] fix redirects when login or sign up
 
 - [x] sessions
-- [] personsal storages
+- [ ] personsal storages
 
-[] tests
-- [] test database
+[ ] tests
+- [ ] test database
+- [ ] gui test
+
+## bugs
+
+- [] crashes when give uncorrect user's data when login

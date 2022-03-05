@@ -10,11 +10,10 @@ var loginButton = document.getElementById("loginButton").addEventListener("click
      req.setRequestHeader("Content-Type", "application/json");
      req.addEventListener("load", function () {
         // получаем и парсим ответ сервера
-         let answer = JSON.parse(req.response);
-         prompt(answer.message)
+        let answer = JSON.parse(req.response);
+        window.location.href = answer.url;
      });
      req.send(user);
-     //redirect
 })
 var signupButton = document.getElementById("signupButton").addEventListener("click", function (e) {
     e.preventDefault();
@@ -30,6 +29,7 @@ var signupButton = document.getElementById("signupButton").addEventListener("cli
         // получаем и парсим ответ сервера
         let receivedUser = JSON.parse(req.response);
         console.log(receivedUser);   // смотрим ответ сервера
+        window.location.href = answer.url;
     });
     req.send(user);
     //redirect

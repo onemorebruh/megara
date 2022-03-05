@@ -53,10 +53,11 @@ app.post("/userReg", jsonPaser, async function(req, res){
 			if(err) return console.log(err);
 		});
 		var token = await generate_token(username, email, config.signature, "6h");
-		res.json({'token': token});
+		req.session.username = username
+		res.json({
+			token: token,
+			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
 	} //else prompt "such user already exist"
-	req.session.username = username
-	res.redirect(`http://${config.ip}:${config.port}/`)
 });
 
 app.post("/login", jsonPaser, async function(req, res){
@@ -73,10 +74,11 @@ app.post("/login", jsonPaser, async function(req, res){
 	areTheSame = await bcrypt.compareSync(password, fromDb.password);
 	if (areTheSame === true) {
 		token = await generate_token(username, email, config.signature, "6h");
+		req.session.username = username
+		res.json({
+			token: token,
+			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
 	}
-	req.session.username = username
-	console.log("user is succesfully validated")
-	res.redirect(`..`)
 });
 
 app.post("/adminlogin", jsonPaser, async function(req, res){
@@ -95,11 +97,11 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 		token = await generate_token(username, email, config.signature, "6h");
 		res.json({
 			'token': token,
-			'url': `http://${config.ip}:${config.port}/admin?user=${fromDb._id}`
+			'url': `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
 		});
 	}
 	res.json({
-		'url': `http://${config.ip}:${config.port}/bdusr`
+		'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
 	});
 });
 
@@ -113,7 +115,7 @@ app.get("/bdusr", function(req, res) {
 
 app.get("/", function(req, res) {
 	if (!req.session.username){//redirect
-		res.redirect(`http://${config.ip}:${config.port}/login`)
+		res.redirect(`${config.protocol}://${config.ip}:${config.port}/login`)
 	} else {
 		res.sendFile(__dirname + "/static/homepage/index.html");
 	}

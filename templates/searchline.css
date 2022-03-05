@@ -1,0 +1,42 @@
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    height: 3em;
+    width: 5em;
+    margin-top: 0.25em;
+    margin-right: 0.5em ;
+    background-color: #b23c17;
+    color: #f5f5f5;
+    border: 0;
+    border-radius: 1em ;
+    text-transform: capitalize;
+}
+
+#searchLineDiv {
+    background-color: #ff784e;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+#dataToFind {
+    border: 0;
+    background-color: #f5f5f5;
+    height: 3em;
+    border-radius: 1em 0em 0em 1em;
+}
+
+#searchButton {
+    border-radius: 0 1em 1em 0;
+}
