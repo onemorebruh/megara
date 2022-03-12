@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const fs = require('fs');
 
 //database
 const mongoose = require("mongoose");
@@ -105,6 +106,48 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 	});
 });
 
+app.post("/newFile", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	let username, text, filename, message;
+    username = req.body.username;
+	text = req.body.text;
+	filename = req.body.filename;
+	//check for user in db
+	const fromDb = await User.findOne({username}).exec();
+	if(fromDb){
+		console.log(fromDb, fromDb._id)
+		//save file in personal directory
+		try{
+			if(!fs.existsSync(`${__dirname}/public/${username}/`)) {//check for directory
+				fs.mkdirSync(`${__dirname}/public/${username}/`)
+			}
+			if(fs.existsSync(`${__dirname}/public/${username}/${filename}`)){
+				message = 'such file already exists';
+			} else {
+				fs.writeFileSync(`${__dirname}/public/${username}/${filename}`, text);
+				message = 'file is succesfully saved';}
+				fromDb.documents.push(`${__dirname}/public/${username}/${filename}`)
+				await User.findByIdAndUpdate(fromDb._id, {documents: fromDb.documents}, function(err, doc) {
+					if (err) return console.log(err);
+					return console.log(doc, "\nsucessfully added");
+				});
+				console.log(message)
+			res.json({message: message})
+		} catch {
+			message = 'something is wrong with your file. it is not saved :('
+			res.json({message: message})
+		}
+		console.log(message)
+		//send message back
+	} else {console.log(message)
+		res.json({
+			message: "something is wrong with your username, you have to use it's  website to save files"
+		})
+	}
+
+	}
+);
+
 app.get("/login", function(req, res) {
 	res.sendFile(__dirname + "/static/login/index.html");
 });
@@ -113,11 +156,25 @@ app.get("/bdusr", function(req, res) {
 	res.sendFile(__dirname + "/static/bdusr/index.html");
 });
 
-app.get("/", function(req, res) {
+app.get("/", async function(req, res) {
+	let user;
 	if (!req.session.username){//redirect
 		res.redirect(`${config.protocol}://${config.ip}:${config.port}/login`)
+		
 	} else {
 		res.sendFile(__dirname + "/static/homepage/index.html");
+		user = await User.findOne({username: req.session.username})
+		.then(function (err, doc){
+			if(err) return console.log(err);
+			 
+			return doc;}
+		)
+		console.log(user)
+		try{
+			console.log({user.documents})
+		} catch {
+
+		}
 	}
 });
 

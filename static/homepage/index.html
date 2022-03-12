@@ -3,18 +3,29 @@
 		<head>
 				<meta charset="UTF-8">
 				<title>meagra</title>
-				<link rel="stylesheet" type="text/css" href="styles/homepage.css">
+				<link rel="stylesheet" type="text/css" href="../styles/homepage.css">
+				<link rel="stylesheet" type="text/css" href="../styles/editor.css">
+				<link rel="stylesheet" type="text/css" href="../styles/searchline.css">
+				<link rel="stylesheet" type="text/css" href="../styles/cards.css">
+				<link rel="stylesheet" type="text/css" href="../styles/cssAnimations.css">
 		</head>
-		<header>
+		<body>
+			<header>
 				<h1>magara</h1>
 				<div>
 					<button id="newFile">new file</button>
 					<button id="findFile">find file</button>
 				</div>
 				<button id="user"></button>
-		</header>
-		<body>
-
+			</header>
+			<div id="editorMainDiv">
+				<form id="filenameNSaveButton">
+					<input type="text" id="filename" placeholder="filename">
+					<button id="SaveButton">save</button>
+				</form>
+				<textarea id="text" placeholder="text of the file"></textarea>
+			</div>
 		</body>
 		<script src="../scripts/homepage.js"></script>
+		<script type="text/javascript" src="../scripts/animations.js"></script>
 </html>

@@ -36,7 +36,9 @@ megara is a simple cloud server for easy saving data on your local network
 4. `sudo dnf install mongodb-org mongodb-org-server`
 5. `sudo systemctl enable mongod.service && sudo systemctl start mongod.service`
 6. `sudo dnf install npm nodejs -y`
-7. `node index.js`
+7. `cd megara`
+8. `npm install`
+9. `node index.js`
 
 ## configuration
 ---
@@ -52,6 +54,7 @@ megara is a simple cloud server for easy saving data on your local network
 - [x] editor template
 - [x] card template
 - [x] search line template
+- [ ] user menu template
 
 [ ] admin
 - [x] admin model in database
@@ -64,14 +67,18 @@ megara is a simple cloud server for easy saving data on your local network
 - [ ] validation
 - [x] login
 - - [x] fix redirects when login or sign up
-
+- - [ ] add check for password and email, so service will be much more secure
 - [x] sessions
 - [ ] personsal storages
+- - [x] add files to personal storage
+- - [ ] show files on homepage
+- - [ ] find file in dictionary
+- - [ ] make acces to saving data more secure
 
 [ ] tests
 - [ ] test database
-- [ ] gui test
+- [ ] ui test
 
 ## bugs
 
-- [] crashes when give uncorrect user's data when login
+- [ ] crashes when give uncorrect user's data when login

@@ -77,7 +77,3 @@ header h1 {
     align-items: center;
 }
 
-.clicked {
-    transition-property: background-color;
-    transition-duration: 3s;
-}
