@@ -32,5 +32,4 @@ var signupButton = document.getElementById("signupButton").addEventListener("cli
         window.location.href = answer.url;
     });
     req.send(user);
-    //redirect
 })

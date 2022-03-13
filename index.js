@@ -134,8 +134,10 @@ app.post("/newFile", jsonPaser, async function(req, res){
 				console.log(message)
 			res.json({message: message})
 		} catch {
-			message = 'something is wrong with your file. it is not saved :('
-			res.json({message: message})
+			setTimeout(() => {
+				message = 'something is wrong with your file. it is not saved :('
+				res.json({message: message})
+			}, 30)
 		}
 		console.log(message)
 		//send message back
@@ -147,6 +149,17 @@ app.post("/newFile", jsonPaser, async function(req, res){
 
 	}
 );
+
+app.post("/readFiles", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	//get data from db to show documents
+	user = await User.findOne({username: req.session.username}).exec();
+	console.log(user)
+	console.log(user.documents)
+	res.json({
+		documents: user.documents
+	});
+});
 
 app.get("/login", function(req, res) {
 	res.sendFile(__dirname + "/static/login/index.html");
@@ -163,18 +176,6 @@ app.get("/", async function(req, res) {
 		
 	} else {
 		res.sendFile(__dirname + "/static/homepage/index.html");
-		user = await User.findOne({username: req.session.username})
-		.then(function (err, doc){
-			if(err) return console.log(err);
-			 
-			return doc;}
-		)
-		console.log(user)
-		try{
-			console.log({user.documents})
-		} catch {
-
-		}
 	}
 });
 

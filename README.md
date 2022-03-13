@@ -9,12 +9,13 @@ megara is a simple cloud server for easy saving data on your local network
 ### design
 #### colors
 
-| color   | place      |
-| ------- | ---------- |
-| #f5f5f5 | background |
-| #ff784e | blocks     |
-| #808080 | shadow     |
-| #b23c17 | buttons    |
+| color   | place           |
+| ------- | --------------- |
+| #f5f5f5 | background      |
+| #ff784e | blocks          |
+| #808080 | shadow          |
+| #b23c17 | buttons         |
+| #f5f5f5 | text in buttons |
 
 ## avalibale functions
 ---
@@ -71,14 +72,17 @@ megara is a simple cloud server for easy saving data on your local network
 - [x] sessions
 - [ ] personsal storages
 - - [x] add files to personal storage
-- - [ ] show files on homepage
+- - [x] show files on homepage
+- - - [x] visualize files as in temlpate
 - - [ ] find file in dictionary
 - - [ ] make acces to saving data more secure
 
 [ ] tests
 - [ ] test database
+- [ ] requsets test
 - [ ] ui test
 
 ## bugs
 
 - [ ] crashes when give uncorrect user's data when login
+- [ ] writes error in /newFile POST do haven't crashed
