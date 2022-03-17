@@ -5,6 +5,7 @@ const adminScheme = new Schema({
     username: {
         type :String,
         required: true,
+        unique: true,
     },
     email: {
         type :String,
@@ -15,7 +16,7 @@ const adminScheme = new Schema({
         type :String,
         required: true,
     },
-    databases: [String],
+    tables: [String],
 },
 { versionKey: false })
 

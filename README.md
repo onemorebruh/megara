@@ -61,6 +61,7 @@ megara is a simple cloud server for easy saving data on your local network
 - [x] admin model in database
 - [ ] admin panel
 - [ ] acces to the database via webpage
+- [ ] ability to add new admin ONLY via webpage
 
 [ ] logic
 - [x] check for existing in db when registration
@@ -75,6 +76,8 @@ megara is a simple cloud server for easy saving data on your local network
 - - [x] show files on homepage
 - - - [x] visualize files as in temlpate
 - - [ ] find file in dictionary
+- - [ ] delete file
+- - [ ] edit file
 - - [ ] make acces to saving data more secure
 
 [ ] tests
@@ -85,4 +88,4 @@ megara is a simple cloud server for easy saving data on your local network
 ## bugs
 
 - [ ] crashes when give uncorrect user's data when login
-- [ ] writes error in /newFile POST do haven't crashed
+- [ ] writes error in /newFile POST but haven't been crashed

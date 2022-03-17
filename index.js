@@ -61,6 +61,38 @@ app.post("/userReg", jsonPaser, async function(req, res){
 	} //else prompt "such user already exist"
 });
 
+app.post("/adminReg", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	var collections = mongoose.connections[0].collections;
+	let username, email, password, databases
+    username = req.body.username;
+	email = req.body.email;
+	password = req.body.password;
+	tables = [];
+
+	Object.keys(collections).forEach(function(k) {
+		tables.push(k);
+	});
+
+	console.log(tables);
+	var salt = bcrypt.genSaltSync(10);
+	var hash = bcrypt.hashSync(password, salt)
+	//TODO validation
+	//check for existing
+	const fromDb = await Admin.findOne({email}).exec();
+	if (fromDb === null){
+		//add to db
+		const admin = new Admin({username: username, email: email, password: hash, tables: tables});
+		admin.save(function(err){
+			if(err) return console.log(err);
+		});
+		var token = await generate_token(username, email, config.signature, "6h");
+		req.session.username = username
+		res.json({
+			token: token,
+			url: `${config.protocol}://${config.ip}:${config.port}/admin?username=${username}`});
+	} //else prompt "such user already exist"
+});
 app.post("/login", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	// gather data
@@ -86,19 +118,19 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	// gather data
 	let token;
-	let username, email, password
+	let username, password
     username = req.body.username;
-	email = req.body.email;
 	password = req.body.password;
 	// find user in db
-	const fromDb = await User.findOne({username, email}).exec();
+	const fromDb = await Admin.findOne({username}).exec();
 	// compare user from form and from db
 	areTheSame = await bcrypt.compareSync(password, fromDb.password);
 	if (areTheSame === true) {
-		token = await generate_token(username, email, config.signature, "6h");
+		token = await generate_token(username, fromDb.email, config.signature, "6h");
+		req.session.username = username
 		res.json({
-			'token': token,
-			'url': `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
+			token: token,
+			url: `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
 		});
 	}
 	res.json({
@@ -115,7 +147,6 @@ app.post("/newFile", jsonPaser, async function(req, res){
 	//check for user in db
 	const fromDb = await User.findOne({username}).exec();
 	if(fromDb){
-		console.log(fromDb, fromDb._id)
 		//save file in personal directory
 		try{
 			if(!fs.existsSync(`${__dirname}/public/${username}/`)) {//check for directory
@@ -154,8 +185,6 @@ app.post("/readFiles", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	//get data from db to show documents
 	user = await User.findOne({username: req.session.username}).exec();
-	console.log(user)
-	console.log(user.documents)
 	res.json({
 		documents: user.documents
 	});
@@ -177,12 +206,6 @@ app.get("/", async function(req, res) {
 	} else {
 		res.sendFile(__dirname + "/static/homepage/index.html");
 	}
-});
-
-app.get("/users", auth, function(req, res) {
-	var users = User.find()
-	console.log(users)
-	res.send(users)
 });
 
 app.get("/admin", auth, function(req, res) {
