@@ -3,5 +3,14 @@
         <input type="text" id="filename" placeholder="filename">
         <button id="SaveButton">save</button>
     </form>
-    <textarea id="text" placeholder="text of the file"></textarea>
+    <form>
+        <textarea id="text" placeholder="text of the file"></textarea>
+        <div class="editorInputs">
+            <input type="file" id="editorFileInput">
+            <select id="fileType">
+                <option value=".txt">.txt</option>
+                <option value=".md">.md</option>
+            </select>
+        </div>
+    </form>
 </div>

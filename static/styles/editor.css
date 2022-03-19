@@ -34,6 +34,8 @@ textarea {
     border-radius: 1em;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 2;
+    position: absolute;
+    margin: auto;
     display: none;
 }
 
@@ -63,4 +65,29 @@ textarea {
     height: 100%;
     border-radius: 1em 0em 0em 1em;
 }
+
+#textFileTypeAndFile {
+    display: flex;
+    flex-flow:  row nowrap;
+}
+
+#editorInputs {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 5em;
+    margin: 5px;
+}
+
+#fileType {
+    border-radius: 1em;
+}
+
+#editorFileInput {
+    display: none;
+}
+
+#fileLabel {
+    background-color: #b23c17;
+    border-radius: 1em;
+    padding: 5px;
 }

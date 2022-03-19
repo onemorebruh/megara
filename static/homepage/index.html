@@ -26,7 +26,13 @@
 					<input type="text" id="filename" placeholder="filename">
 					<button id="SaveButton">save</button>
 				</form>
-				<textarea id="text" placeholder="text of the file"></textarea>
+				<form id="textFileTypeAndFile">
+					<textarea id="text" placeholder="text of the file"></textarea>
+					<div id="editorInputs">
+						<input type="file" id="editorFileInput">
+						<label for="editorFileInput" id="fileLabel">load own file</label>
+					</div>
+				</form>
 			</div>
 		</body>
 		<script src="../scripts/homepage.js"></script>

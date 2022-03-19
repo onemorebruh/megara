@@ -50,12 +50,12 @@ megara is a simple cloud server for easy saving data on your local network
 ## TODO
 ---
 [ ] design
-- [ ] choose fonts
 - [ ] choose svgs
 - [x] editor template
 - [x] card template
 - [x] search line template
 - [ ] user menu template
+- [ ] add animations
 
 [ ] admin
 - [x] admin model in database
@@ -75,9 +75,12 @@ megara is a simple cloud server for easy saving data on your local network
 - - [x] add files to personal storage
 - - [x] show files on homepage
 - - - [x] visualize files as in temlpate
-- - [ ] find file in dictionary
-- - [ ] delete file
+- - [x] find file in dictionary
+- - [x] delete file
+- - - [x] make it run function after press the button
 - - [ ] edit file
+- - - [ ] make both buttons works
+- - - [ ] the server's response in not json, so it does not work as it have to
 - - [ ] make acces to saving data more secure
 
 [ ] tests
@@ -89,3 +92,4 @@ megara is a simple cloud server for easy saving data on your local network
 
 - [ ] crashes when give uncorrect user's data when login
 - [ ] writes error in /newFile POST but haven't been crashed
+- [x] duplicates file in database when saves file

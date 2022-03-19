@@ -19,7 +19,12 @@ newFileButton.addEventListener("click", function (e) {
 
 findFileButton.addEventListener("click", function (e) {
     e.preventDefault();
-    findForm.style.display = 'block';
+    if(findForm.style.display == 'block'){
+        findForm.style.display = 'none';
+        document.getElementById("searchResults").style.display = "none";
+    } else {
+        findForm.style.display = 'block';
+    }
 })
 
 var saveButton = document.getElementById('SaveButton').addEventListener("click", async function (e) {
@@ -28,7 +33,9 @@ var saveButton = document.getElementById('SaveButton').addEventListener("click",
       text: document.getElementById('text').value,
       filename: document.getElementById("filename").value,
       username: username,
+      binary: document.getElementById("editorFileInput").value
   });
+  console.log(file)
   let req = new XMLHttpRequest();
   req.open("POST", "/newFile", true);   
   req.setRequestHeader("Content-Type", "application/json");
@@ -60,16 +67,18 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             docName = doc[doc.length - 1]
             //visualize
             //source -> templates/cards.html
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><img class="fileImg"><form class="editButtons"><button class="downloadButton">download</button><button class="editButton">edit</button><button class="deleteButton">delete</button><button class="shareButton">share</button></form></div>`);
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><img class="fileImg"><form class="editButtons"><button class="downloadButton">download</button><button class="editButton" onclick="editFile('${docName}')">edit</button><button class="deleteButton" onclick="deleteFile('${docName}')">delete</button></form></div>`);
         });
     });
     req.send(file);
 });
 
 document.addEventListener("keyup", function (e){
-    e.preventDefault;
-    var text = document.getElementById("dataToFind").value;
-    search(text);
+    if (findForm.style.display == "block"){
+        e.preventDefault;
+        var text = document.getElementById("dataToFind").value;
+        search(text);
+    }
 })
 
 async function search(text){
@@ -79,7 +88,7 @@ async function search(text){
         var docName = doc[doc.length - 1]
         if (docName.includes(text)){
             //source -> templates/searchResult.html
-            results += `<div class="searchResult"><svg class="resultSVG"></svg><span class="resultName">${docName}</span><button class="downloadButtonResult">download</button><button class="editButtonResult">edit</button><button class="deleteButtonResult">delete</button><button class="shareButtonResult">share</button></div>`
+            results += `<div class="searchResult"><svg class="resultSVG"></svg><span class="resultName">${docName}</span><button class="downloadButtonResult">download</button><button class="editButtonResult" onclick="editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="deleteFile('${docName}')">delete</button></div>`
         }
     }
     )
@@ -90,4 +99,41 @@ async function search(text){
     
         }
         document.body.insertAdjacentHTML('beforeend', `<div id="searchResults">${results}</div>`);}
+}
+
+function deleteFile(filename){
+    var message = JSON.stringify({filename: filename, username: username})
+    console.log(message)
+    let req = new XMLHttpRequest();
+    req.open("POST", "/deleteFile", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        console.log(req.response);
+        alert("file is deleted, please refresh page")
+        return false
+        });
+    req.send(message);
+}
+
+function editFile(filename){
+    var message = JSON.stringify({filename: filename, username: username})
+    console.log(message)
+    let req = new XMLHttpRequest();
+    req.open("POST", "/editFile", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        console.log(req.response);
+        var text = req.response.text
+        console.log(text)
+        var binary = req.response.binary
+        if (binary == undefined) {
+            editor.style.display = 'block';
+            document.getElementById("filename").value = filename;
+            document.getElementById("text").value = text;
+        } else {
+            alert("this function is unavaliable now. comming soon")
+        }
+        return false
+        });
+    req.send(message);
 }
