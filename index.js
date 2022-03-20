@@ -58,7 +58,12 @@ app.post("/userReg", jsonPaser, async function(req, res){
 		res.json({
 			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
-	} //else prompt "such user already exist"
+	} else {
+		res.json({
+			"message": "such user already exists",
+			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
+		});
+	}
 });
 
 app.post("/adminReg", jsonPaser, async function(req, res){
@@ -111,6 +116,10 @@ app.post("/login", jsonPaser, async function(req, res){
 		res.json({
 			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
+	} else {
+		res.json({
+			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
+		});
 	}
 });
 
@@ -192,10 +201,14 @@ app.post("/newFile", jsonPaser, async function(req, res){
 app.post("/readFiles", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	//get data from db to show documents
-	user = await User.findOne({username: req.session.username}).exec();
-	res.json({
-		documents: user.documents
-	});
+	try{
+		user = await User.findOne({username: req.session.username}).exec();
+		res.json({
+			documents: user.documents
+		});
+	} catch {
+		return res.sendStatus(400);
+	}
 });
 
 app.post("/deleteFile", jsonPaser, async function(req, res){
@@ -223,27 +236,32 @@ app.post("/deleteFile", jsonPaser, async function(req, res){
 })
 
 app.post("/editFile", jsonPaser, async function(req, res){
-	console.log("editFile")
 	if(!req.body) return res.sendStatus(400);
 	let filename = req.body.filename;
 	let username = req.body.username;
 	let filedata;
 	const fromDb = await User.findOne({username}).exec();
-	docs = fromDb.documents
-	docs.forEach( function (doc, i, docs){
-		if(doc == `${__dirname}/public/${username}/${filename}`){
-			filedata = fs.readFileSync(doc, "utf8");
-		} else{
-		}
-		if (filedata == undefined){
-			filedata = "empty file"
-		}
-		message = JSON.stringify({
+	try{
+		docs = fromDb.documents
+		docs.forEach( function (doc, i, docs){
+			if(doc == `${__dirname}/public/${username}/${filename}`){
+				filedata = fs.readFileSync(doc, "utf8");
+			} else{
+			}
+			if (filedata == undefined){
+				filedata = "empty file"
+			}
+		})
+		res.json({
 			text: filedata,
 			binary: undefined
+		});
+	} catch {
+		console.log(username, fromDb)
+		res.json({
+			text: "something is wrong with file. please try again"
 		})
-	})
-	res.json({message : message});
+	}
 })
 
 app.get("/login", function(req, res) {

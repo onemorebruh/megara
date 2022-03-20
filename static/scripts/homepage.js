@@ -1,3 +1,4 @@
+
 var url_string = window.location.href;
 var url = new URL(url_string);
 var username = url.searchParams.get("username")
@@ -8,7 +9,14 @@ var editor = document.getElementById('editorMainDiv');
 var findForm = document.getElementById('searchLineDiv');
 var arrayOfDocumentsFromDB = [];
 
-
+async function checkForUser (){
+    let lengthOfURL;
+    if(url.searchParams.get("username") == undefined){
+        lengthOfURL = window.location.href.length
+        window.location.href = `${url_string.slice(0,lengthOfURL-1)}/login`;
+    }
+}
+checkForUser();
 //write username in the button
 userButton.insertAdjacentHTML('afterbegin', `<span>${username}</span>`);
 
@@ -67,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             docName = doc[doc.length - 1]
             //visualize
             //source -> templates/cards.html
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><img class="fileImg"><form class="editButtons"><button class="downloadButton">download</button><button class="editButton" onclick="editFile('${docName}')">edit</button><button class="deleteButton" onclick="deleteFile('${docName}')">delete</button></form></div>`);
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><img class="fileImg"><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div></div>`);
         });
     });
     req.send(file);
@@ -88,7 +96,7 @@ async function search(text){
         var docName = doc[doc.length - 1]
         if (docName.includes(text)){
             //source -> templates/searchResult.html
-            results += `<div class="searchResult"><svg class="resultSVG"></svg><span class="resultName">${docName}</span><button class="downloadButtonResult">download</button><button class="editButtonResult" onclick="editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="deleteFile('${docName}')">delete</button></div>`
+            results += `<div class="searchResult"><svg class="resultSVG"></svg><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div>`
         }
     }
     )
@@ -121,19 +129,39 @@ function editFile(filename){
     let req = new XMLHttpRequest();
     req.open("POST", "/editFile", true);   
     req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function () {
+    req.addEventListener("load", async function () {
         console.log(req.response);
-        var text = req.response.text
-        console.log(text)
+        var answer = await JSON.parse(req.response);
+        console.log(answer.text)
         var binary = req.response.binary
         if (binary == undefined) {
             editor.style.display = 'block';
             document.getElementById("filename").value = filename;
-            document.getElementById("text").value = text;
+            document.getElementById("text").value = answer.text;
         } else {
             alert("this function is unavaliable now. comming soon")
         }
         return false
         });
     req.send(message);
+}
+
+function downloadFile(filename){
+    var message = JSON.stringify({filename: filename, username: username})
+    let req = new XMLHttpRequest();
+    req.open("POST", "/editFile", true);   //it reads file's data but not edit
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", async function () {
+        var answer = await JSON.parse(req.response);
+        console.log(answer.text)
+        var downloadElement = document.createElement('a');
+        downloadElement.setAttribute('href','data:text/plain;charset=utf-8, ' + encodeURIComponent(answer.text));
+        downloadElement.setAttribute('download', filename);
+        document.body.appendChild(downloadElement);
+        downloadElement.click();
+        document.body.removeChild(downloadElement);
+        return false
+        });
+    req.send(message);
+
 }
