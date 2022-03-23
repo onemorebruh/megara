@@ -9,8 +9,9 @@ var loginButton = document.getElementById("loginButton").addEventListener("click
      req.setRequestHeader("Content-Type", "application/json");
      req.addEventListener("load", function () {
         // получаем и парсим ответ сервера
-         let url = JSON.parse(req.response.url);
-         //redirect
+        let answer = JSON.parse(req.response);
+        //redirect
+        window.location.href = answer.url;
      });
      req.send(user);
      //redirect

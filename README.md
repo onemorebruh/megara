@@ -162,19 +162,24 @@ sends the data of the file to the browser
 
 ## TODO
 ---
-[ ] design
-- [ ] choose svgs
+[mvp] design
+- [x] choose svgs
 - [x] editor template
 - [x] card template
 - [x] search line template
-- [ ] user menu template
+- [x] user menu template
+- [x] admin tables templates
 - [ ] add animations
+- [x] make admin panel's buttons look better
 
 [ ] admin
 - [x] admin model in database
-- [ ] admin panel
-- [ ] acces to the database via webpage
-- [ ] ability to add new admin ONLY via webpage
+- [x] admin panel
+- [mvp] acces to the database via webpage
+- - [x] get 3 responses(not 1) and visualize them
+- - [ ] add new lines via webpage
+- - [ ] delete lines via webpage
+- - [ ] ability to add new admin ONLY via webpage
 
 [mvp] logic
 - [x] check for existing in db when registration

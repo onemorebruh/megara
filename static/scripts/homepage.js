@@ -68,14 +68,14 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
         let answer = JSON.parse(req.response);
         let docName;
         arrayOfDocumentsFromDB = answer.documents;
-        //TODO visualize each file
+        // visualize each file
         arrayOfDocumentsFromDB.forEach(function(doc, i, arrayOfDocumentsFromDB) {
             //split
             doc = doc.split("/");
             docName = doc[doc.length - 1]
             //visualize
             //source -> templates/cards.html
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><img class="fileImg"><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div></div>`);
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><div class="fileImg">${SVG.txt}</div><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div></div>`);
         });
     });
     req.send(file);
@@ -89,6 +89,20 @@ document.addEventListener("keyup", function (e){
     }
 })
 
+document.getElementById("user").addEventListener('click', function (e) {
+    e.preventDefault;
+    if(document.getElementById("userMenu").style.display == 'block'){
+    document.getElementById("userMenu").style.display = 'none';
+    } else {
+        document.getElementById("userMenu").style.display = 'block';
+    }
+})
+
+document.getElementById("logOut").addEventListener("click", function() {
+    let link = url_string.split("?")
+    window.location.href = `${link[0]}/login`;
+})
+
 async function search(text){
     let results = "";
     arrayOfDocumentsFromDB.forEach(function (doc, i, arrayOfDocumentsFromDB){
@@ -96,7 +110,7 @@ async function search(text){
         var docName = doc[doc.length - 1]
         if (docName.includes(text)){
             //source -> templates/searchResult.html
-            results += `<div class="searchResult"><svg class="resultSVG"></svg><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div>`
+            results += `<div class="searchResult"><div class="resultSVG">${SVG.txt}</div><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div>`
         }
     }
     )

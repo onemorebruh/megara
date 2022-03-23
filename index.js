@@ -8,7 +8,6 @@
 const express = require("express");
 const app = express();
 const jsonPaser = express.json();
-const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
@@ -23,8 +22,8 @@ const Admin = require("./models/adminuser");
 
 //config
 const config = require("./config");
-const req = require("express/lib/request");// wtf is this?
-const auth = require("./middleware/auth");
+const users = require("./models/users");
+//const req = require("express/lib/request");// wtf is this?
 console.table(config);
 
 
@@ -53,10 +52,8 @@ app.post("/userReg", jsonPaser, async function(req, res){
 		user.save(function(err){
 			if(err) return console.log(err);
 		});
-		var token = await generate_token(username, email, config.signature, "6h");
 		req.session.username = username
 		res.json({
-			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
 	} else {
 		res.json({
@@ -69,7 +66,7 @@ app.post("/userReg", jsonPaser, async function(req, res){
 app.post("/adminReg", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	var collections = mongoose.connections[0].collections;
-	let username, email, password, databases
+	let username, email, password;
     username = req.body.username;
 	email = req.body.email;
 	password = req.body.password;
@@ -91,17 +88,14 @@ app.post("/adminReg", jsonPaser, async function(req, res){
 		admin.save(function(err){
 			if(err) return console.log(err);
 		});
-		var token = await generate_token(username, email, config.signature, "6h");
 		req.session.username = username
 		res.json({
-			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}/admin?username=${username}`});
 	} //else prompt "such user already exist"
 });
 app.post("/login", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	// gather data
-	let token;
 	let username, email, password
     username = req.body.username;
 	email = req.body.email;
@@ -111,10 +105,8 @@ app.post("/login", jsonPaser, async function(req, res){
 	// compare user from form and from db
 	areTheSame = await bcrypt.compareSync(password, fromDb.password);
 	if (areTheSame === true) {
-		token = await generate_token(username, email, config.signature, "6h");
 		req.session.username = username
 		res.json({
-			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
 	} else {
 		res.json({
@@ -126,7 +118,6 @@ app.post("/login", jsonPaser, async function(req, res){
 app.post("/adminlogin", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	// gather data
-	let token;
 	let username, password
     username = req.body.username;
 	password = req.body.password;
@@ -135,16 +126,15 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 	// compare user from form and from db
 	areTheSame = await bcrypt.compareSync(password, fromDb.password);
 	if (areTheSame === true) {
-		token = await generate_token(username, fromDb.email, config.signature, "6h");
 		req.session.username = username
 		res.json({
-			token: token,
 			url: `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
 		});
+	} else {
+		res.json({
+			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
+		});
 	}
-	res.json({
-		'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
-	});
 });
 
 app.post("/newFile", jsonPaser, async function(req, res){
@@ -197,6 +187,51 @@ app.post("/newFile", jsonPaser, async function(req, res){
 
 	}
 );
+
+app.post("/readDB", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	var readingObject = req.body.readingObject;
+	var sortedFiles = [];
+	switch(readingObject){
+		case "user":
+			try{
+				var users = await User.find().exec();
+				res.json({
+					array: users
+				});
+			} catch {
+				return res.sendStatus(400);
+			}
+			break
+		case "admin":
+			try{
+				var admins = await Admin.find().exec();
+				res.json({
+					array: admins
+				});
+			} catch {
+				return res.sendStatus(400);
+			}
+			break
+		case "file":
+			try{
+				users = await User.find().exec();
+				users.forEach(function(doc, i , users){
+					let files = doc.documents;
+					files.forEach(function (doc, i , files){
+						sortedFiles.push(doc)
+					})
+				})
+				res.json({
+					array: sortedFiles
+				});
+			} catch (err) {
+				console.log(err)
+				return res.sendStatus(400);
+			}
+			break
+	}
+});
 
 app.post("/readFiles", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
@@ -273,7 +308,6 @@ app.get("/bdusr", function(req, res) {
 });
 
 app.get("/", async function(req, res) {
-	let user;
 	if (!req.session.username){//redirect
 		res.redirect(`${config.protocol}://${config.ip}:${config.port}/login`)
 		
@@ -282,8 +316,17 @@ app.get("/", async function(req, res) {
 	}
 });
 
-app.get("/admin", auth, function(req, res) {
-	res.sendFile(__dirname + "/static/admin/index.html");
+app.get("/admin", function(req, res) {
+	var device = req.get("user-agent");
+	if (!req.session.username){//redirect
+		res.redirect(`${config.protocol}://${config.ip}:${config.port}/adminLogin`)
+	} else {
+		if (device.includes("Apple")) {//even android devices have AppleWebKit in user-agent
+			res.sendFile(__dirname + "/static/admin/mobile.html");
+		} else {
+			res.sendFile(__dirname + "/static/admin/desktop.html");
+		}
+	}
 });
 
 app.get("/adminLogin", function(req, res) {
@@ -292,8 +335,3 @@ app.get("/adminLogin", function(req, res) {
 
 app.use(express.static(__dirname + "/static"));
 app.listen(config.port, config.ip );
-
-async function generate_token(username, email, signature, expiration){
-	let token = jwt.sign({username, email}, signature, {expiresIn: expiration});
-	return token;
-}

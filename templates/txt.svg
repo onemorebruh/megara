@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="txt.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.64052329"
+     inkscape:cx="96.795856"
+     inkscape:cy="560.47923"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="267.98157"
+       y="408.39411"
+       width="151.31061"
+       height="67.699773"
+       id="rect7832" />
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect31"
+       style="fill:#000000;stroke-width:0.750012"
+       d="m 75.893885,79.292332 c -10.701846,0 -19.317167,8.615839 -19.317167,19.317684 v 38.224024 c 0,10.70184 8.615321,19.31768 19.317167,19.31768 h 31.055465 c 10.70185,0 19.31717,-8.61584 19.31717,-19.31768 V 98.610016 c 0,-10.701845 -8.61532,-19.317684 -19.31717,-19.317684 z m 2.582788,6.276621 h 25.889887 c 8.87526,0 16.02022,7.145472 16.02022,16.020727 v 31.69987 c 0,8.87526 -7.14496,16.02021 -16.02022,16.02021 H 78.476673 c -8.875254,0 -16.02021,-7.14495 -16.02021,-16.02021 v -31.69987 c 0,-8.875255 7.144956,-16.020727 16.02021,-16.020727 z" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.42191535,0,0,0.52919398,-37.585592,-109.41072)"
+       id="text7830"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect7832);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="267.98242"
+         y="443.78516"
+         id="tspan17818">TXT</tspan></text>
+  </g>
+</svg>

@@ -36,3 +36,14 @@ header {
 header h1 {
     margin-left: 0.5em;
 }
+
+#userMenu {
+    background-color: #ff784e;
+    position: absolute;
+    top: 5em;
+    right: 0;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    display: none;
+}
