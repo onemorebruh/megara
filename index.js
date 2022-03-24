@@ -23,7 +23,6 @@ const Admin = require("./models/adminuser");
 //config
 const config = require("./config");
 const users = require("./models/users");
-//const req = require("express/lib/request");// wtf is this?
 console.table(config);
 
 
@@ -88,10 +87,9 @@ app.post("/adminReg", jsonPaser, async function(req, res){
 		admin.save(function(err){
 			if(err) return console.log(err);
 		});
-		req.session.username = username
 		res.json({
-			url: `${config.protocol}://${config.ip}:${config.port}/admin?username=${username}`});
-	} //else prompt "such user already exist"
+			message: "admin was succesfully added"});
+	}
 });
 app.post("/login", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
@@ -297,6 +295,72 @@ app.post("/editFile", jsonPaser, async function(req, res){
 			text: "something is wrong with file. please try again"
 		})
 	}
+})
+
+app.post("/DBdelete", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	let id = req.body.id;
+	let filename =req.body.filename
+	let database = req.body.database;
+	let message = ""
+	let fromDb;
+	let fileArray;
+	switch (database){
+		case "user":
+			fromDb = await User.findByIdAndDelete(id).exec();
+			message = "user is succesfully deleted"
+			break
+		case "admin":
+			fromDb = await Admin.findByIdAndDelete(id).exec();
+			message = "admin is succesfully deleted"
+			break
+		case "file":
+			fromDb = await User.findById(id).exec();
+			fileArray = fromDb.documents
+			fileArray.forEach(function (doc, i, fileArray){
+				if (filename == doc){
+					console.log(fileArray)
+					fileArray =fileArray.splice(i, 1)
+					console.log(fileArray)
+				}
+			})
+			User.findByIdAndUpdate(id, {documents: fileArray}).exec()
+			message = "file is succesfully deleted"
+			break
+		default:
+			console.log("bruh")
+	}
+	res.json({
+		message: message
+	})
+})
+
+app.post("/DBedit", jsonPaser, async function(req, res){
+	if(!req.body) return res.sendStatus(400);
+	let id = req.body.id;
+	let username = req.body.username;
+	let database = req.body.database;
+	let password = req.body.password;
+	let email = req.body.email;
+	let message = ""
+	let fromDb;
+	var salt = bcrypt.genSaltSync(10);
+	var hash = bcrypt.hashSync(password, salt)
+	switch (database){
+		case "user":
+			fromDb = await User.findByIdAndUpdate(id, {username: username, email: email, password: hash}).exec();
+			message = "user is succesfully updated"
+			break
+		case "admin":
+			fromDb = await Admin.findByIdAndUpdate(id, {username: username, email: email, password: hash}).exec();
+			message = "admin is succesfully updated"
+			break
+		default:
+			console.log("bruh")
+	}
+	res.json({
+		message: message
+	})
 })
 
 app.get("/login", function(req, res) {

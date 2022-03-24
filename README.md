@@ -133,6 +133,37 @@ deletes file from directory and database
 
 sends the data of the file to the browser
 
+### /DBedit
+>example of json:
+{
+    "id": "621f6cc6ac7450dd7142f4d2",
+    "database": "user",
+    "username": "barfoo",
+    "email": "bar1@foo.com",
+    "password": "barfoo"
+}
+
+>example of answer:
+{
+    "message": "user is succesfully updated"
+}
+
+edits files on admin page
+
+### /DBedit
+>example of json:
+{
+    "id": "621f6cc6ac7450dd7142f4d2",
+    "database": "user",
+}
+
+>example of answer:
+{
+    "message": "user is succesfully deleted"
+}
+
+deletes files via admin page
+
 ## instalation
 ---
 > author used fedora so instalation can be different on your machine
@@ -177,9 +208,10 @@ sends the data of the file to the browser
 - [x] admin panel
 - [mvp] acces to the database via webpage
 - - [x] get 3 responses(not 1) and visualize them
-- - [ ] add new lines via webpage
-- - [ ] delete lines via webpage
-- - [ ] ability to add new admin ONLY via webpage
+- - [x] editing files from admin page
+- - [x] delete lines via webpage
+- - - [ ] delete files via web page
+- - [x] ability to add new admin ONLY via webpage
 
 [mvp] logic
 - [x] check for existing in db when registration
@@ -189,7 +221,7 @@ sends the data of the file to the browser
 - - [x] fix redirects when login or sign up
 - - [ ] add check for password and email, so service will be much more secure
 - [x] sessions
-- [mvp] personsal storages
+- [x] personsal storages
 - - [x] make both buttons and resultButtons work(now work resultButtons only)
 - - [x] add files to personal storage
 - - [x] show files on homepage

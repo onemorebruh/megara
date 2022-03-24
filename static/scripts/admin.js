@@ -1,4 +1,3 @@
-//import SVG from "./svgs";
 var adminArray = [], userArray = [], fileArray = [];
 var adminPanel, userPanel, filePanel;
 
@@ -49,7 +48,7 @@ document.getElementById("usersPanel").addEventListener("keyup", function (e){
         userArray.forEach(function (doc, i, userArray){
             if(doc.username.includes(name)){
                 if(doc.email.includes(email)){
-                    userResults += `<div><span>${doc.username}</span><span>${doc.email}</span><span>${doc.documents.length}</span><span>${SVG.edit}</span><span>${SVG.trash}</span></div>`
+                    userResults += `<div><span>${doc.username}</span><span>${doc.email}</span><span>${doc.documents.length}</span><span onclick="DBedit('${doc._id}', 'user')">${SVG.edit}</span><span onclick="DBdelete('${doc._id}', 'user')">${SVG.trash}</span></div>`
                 }
             }
         });
@@ -74,10 +73,11 @@ document.getElementById("adminsPanel").addEventListener("keyup", function (e){
         adminArray.forEach(function (doc, i, adminArray){
             if(doc.username.includes(name)){
                 if(doc.email.includes(email)){
-                    adminResults += `<div><span>${doc.username}</span><span>${doc.email}</span><span>${doc.tables.length}</span><span>${SVG.edit}</span><span>${SVG.trash}</span></div>`
+                    adminResults += `<div><span>${doc.username}</span><span>${doc.email}</span><span>${doc.tables.length}</span><span onclick="DBedit('${doc._id}', 'admin')">${SVG.edit}</span><span onclick="DBdelete('${doc._id}', 'admin')">${SVG.trash}</span></div>`
                 }
             }
         });
+        adminResults += `<button id="newAdmin">create new admin</button>`
         adminPanel = document.getElementById("adminsTable");
         adminPanel.insertAdjacentHTML("beforeend", adminResults);
     }
@@ -108,3 +108,59 @@ document.getElementById("filesPanel").addEventListener("keyup", function (e){
         filesPanel.insertAdjacentHTML("beforeend", filesResults);
     }
 })
+
+document.getElementById("newAdmin").addEventListener('click', function (e){
+    e.preventDefault;
+    let username = prompt("admin's name");
+    let email = prompt("admin's email");
+    let password = prompt("admin's password");
+    file = JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+    });
+    let req = new XMLHttpRequest();
+    req.open("POST", "/adminReg", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        let answer = JSON.parse(req.response);
+        alert(answer.message)
+    })
+    req.send(file);
+})
+
+function DBdelete (id, database) {
+    file = JSON.stringify({
+        id: id,
+        database: database
+    });
+    let req = new XMLHttpRequest();
+    req.open("POST", "/DBdelete", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        let answer = JSON.parse(req.response);
+        alert(answer.message)
+    })
+    req.send(file);
+}
+
+function DBedit (id, database) {
+    let name = prompt("name");
+    let email = prompt("eamil");
+    let password = prompt("password");
+    file = JSON.stringify({
+        id: id,
+        database: database,
+        name: name,
+        email: email,
+        password: password
+    });
+    let req = new XMLHttpRequest();
+    req.open("POST", "/DBedit", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        let answer = JSON.parse(req.response);
+        alert(answer.message)
+    })
+    req.send(file);
+}
