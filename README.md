@@ -167,8 +167,10 @@ deletes files via admin page
 ## instalation
 ---
 > author used fedora so instalation can be different on your machine
-1. `git clone https://github.com/onemorebruh/megara.git`
-2. `sudo vim /etc/yum.repos.d/mongodb.repo`
+1. ``` bash
+   git clone https://github.com/onemorebruh/megara.git
+2. ```bash
+   sudo vim /etc/yum.repos.d/mongodb.repo
 3. ```[Mongodb]
     name=MongoDB Repository
     baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
@@ -178,12 +180,18 @@ deletes files via admin page
     ```
     paste this into file and save
 
-4. `sudo dnf install mongodb-org mongodb-org-server`
-5. `sudo systemctl enable mongod.service && sudo systemctl start mongod.service`
-6. `sudo dnf install npm nodejs -y`
-7. `cd megara`
-8. `npm install`
-9. `node index.js`
+4. ```bash
+   sudo dnf install mongodb-org mongodb-org-server
+5. ```bash
+   sudo systemctl enable mongod.service && sudo systemctl start mongod.service
+6. ```bash
+   sudo dnf install npm nodejs -y
+7. ```bash
+   cd megara
+8. ```bash
+   npm install
+9.  ```bash
+    node index.js
 
 ## configuration
 ---
@@ -210,14 +218,14 @@ deletes files via admin page
 - - [x] get 3 responses(not 1) and visualize them
 - - [x] editing files from admin page
 - - [x] delete lines via webpage
-- - - [ ] delete files via web page
+- - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
 
 [mvp] logic
 - [x] check for existing in db when registration
 - [x] check for existing in db when login
-- [ ] validation
-- [mvp] login
+- [x] validation
+- [x] login
 - - [x] fix redirects when login or sign up
 - - [x] add check for password and email, so service will be much more secure
 - [x] sessions
@@ -232,7 +240,7 @@ deletes files via admin page
 - - [x] edit file
 - - - [x] the server's response in not json, so it does not work as it have to
 - - [x] download button
-- - [ ] make acces to saving data more secure
+- - [x] make acces to saving data more secure
 - [ ] logs
 - [ ] mvc
 
@@ -245,3 +253,4 @@ deletes files via admin page
 - [x] crashes when give uncorrect user's data when login
 - [x] writes error in /newFile POST but haven't been crashed
 - [x] duplicates file in database when saves file
+- [x] crashe when creates new admin with empty data

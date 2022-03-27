@@ -1,25 +1,6 @@
 var adminArray = [], userArray = [], fileArray = [];
 var adminPanel, userPanel, filePanel;
 
-async function readFromDB (readingObject) {//load filenames from db
-    var file = JSON.stringify({
-        readingObject: readingObject
-    })
-    let req = new XMLHttpRequest();
-    let sortedArray = [];
-    req.open("POST", "/readDB", true);   
-    req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function () {
-        let answer = JSON.parse(req.response);
-        let array = [];
-        array = answer.array;
-        array.forEach(function(doc, i, array) {
-            sortedArray.push(doc);
-        });
-    })
-    req.send(file);
-    return sortedArray;
-}
 
 document.addEventListener("DOMContentLoaded", async function (e) {
     e.preventDefault();
@@ -77,7 +58,7 @@ document.getElementById("adminsPanel").addEventListener("keyup", function (e){
                 }
             }
         });
-        adminResults += `<button id="newAdmin">create new admin</button>`
+        adminResults += `<button onclick="newAdmin()" id="newAdmin">create new admin</button>`
         adminPanel = document.getElementById("adminsTable");
         adminPanel.insertAdjacentHTML("beforeend", adminResults);
     }
@@ -97,10 +78,12 @@ document.getElementById("filesPanel").addEventListener("keyup", function (e){
     } finally {
         let filesResults ="";
         fileArray.forEach(function (doc, i, fileArray){
-            let docName = doc.split("/")[doc.split("/").length -1] //splits and get the last element of array
+            let doc_id = doc._id
+            console.log(doc)
+            let docName = doc.file; //splits and get the last element of array
             if (docName.includes(name)){
                 if (docName.includes(extention)){
-                    filesResults += `<div><span>${doc}</span><span>${SVG.trash}</span></div>`
+                    filesResults += `<div><span>${docName}</span><span onclick="DBdelete('${doc_id}', 'file', '${docName}')">${SVG.trash}</span></div>`
                 }
             }
         });
@@ -109,11 +92,18 @@ document.getElementById("filesPanel").addEventListener("keyup", function (e){
     }
 })
 
-document.getElementById("newAdmin").addEventListener('click', function (e){
-    e.preventDefault;
-    let username = prompt("admin's name");
-    let email = prompt("admin's email");
-    let password = prompt("admin's password");
+
+function newAdmin(){
+    let username, email, password;
+    do{
+        username = prompt("admin's name");
+    } while (username == "")
+    do{
+        email = prompt("admin's email");
+    } while (username == "")
+    do{
+        password = prompt("admin's password");
+    } while (username == "")
     file = JSON.stringify({
         username: username,
         email: email,
@@ -127,12 +117,14 @@ document.getElementById("newAdmin").addEventListener('click', function (e){
         alert(answer.message)
     })
     req.send(file);
-})
+}
 
-function DBdelete (id, database) {
+function DBdelete (id, database, filename="") 
+    console.log(id, database, filename)
     file = JSON.stringify({
         id: id,
-        database: database
+        database: database,
+        filename: filename,
     });
     let req = new XMLHttpRequest();
     req.open("POST", "/DBdelete", true);   
@@ -163,4 +155,25 @@ function DBedit (id, database) {
         alert(answer.message)
     })
     req.send(file);
+}
+
+
+async function readFromDB (readingObject) {//load filenames from db
+    var file = JSON.stringify({
+        readingObject: readingObject
+    })
+    let req = new XMLHttpRequest();
+    let sortedArray = [];
+    req.open("POST", "/readDB", true);   
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function () {
+        let answer = JSON.parse(req.response);
+        let array = [];
+        array = answer.array;
+        array.forEach(function(doc, i, array) {
+            sortedArray.push(doc);
+        });
+    })
+    req.send(file);
+    return sortedArray;
 }

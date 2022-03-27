@@ -63,31 +63,39 @@ app.post("/userReg", jsonPaser, async function(req, res){
 
 app.post("/adminReg", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
-	var collections = mongoose.connections[0].collections;
-	let username, email, password;
-    username = req.body.username;
-	email = req.body.email;
-	password = req.body.password;
-	tables = [];
-
-	Object.keys(collections).forEach(function(k) {
-		tables.push(k);
-	});
-
-	console.log(tables);
-	var salt = bcrypt.genSaltSync(10);
-	var hash = bcrypt.hashSync(password, salt)
-	//TODO validation
-	//check for existing
-	const fromDb = await Admin.findOne({email}).exec();
-	if (fromDb === null){
-		//add to db
-		const admin = new Admin({username: username, email: email, password: hash, tables: tables});
-		admin.save(function(err){
-			if(err) return console.log(err);
-		});
-		res.json({
-			message: "admin was succesfully added"});
+	var collections, username, email, password, salt, hash, fromDb, admin;
+	if (!req.session._id){
+		res.sendStatus(400);
+	} else{
+		admin = await Admin.findById(req.session._id).exec();
+		if (admin.tables.includes("admins")){
+			collections = mongoose.connections[0].collections;
+			username = req.body.username;
+			email = req.body.email;
+			password = req.body.password;
+			tables = [];
+		
+			Object.keys(collections).forEach(function(k) {
+				tables.push(k);
+			});
+		
+			console.log(tables);
+			salt = bcrypt.genSaltSync(10);
+			hash = bcrypt.hashSync(password, salt)
+			//check for existing
+			fromDb = await Admin.findOne({email}).exec();
+			if (fromDb === null){
+				//add to db
+				admin = new Admin({username: username, email: email, password: hash, tables: tables});
+				admin.save(function(err){
+					if(err) return console.log(err);
+				});
+				res.json({
+					message: "admin was succesfully added"});
+			} else {
+				res.sendStatus(400);
+			}
+		}
 	}
 });
 app.post("/login", jsonPaser, async function(req, res){
@@ -104,6 +112,7 @@ app.post("/login", jsonPaser, async function(req, res){
 		areTheSame = await bcrypt.compareSync(password, fromDb.password);
 		if (areTheSame === true && email ==fromDb.email) {
 			req.session.username = username
+			req.session._id = fromDb._id
 			res.json({
 				url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
 		} else {
@@ -132,6 +141,7 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 		areTheSame = await bcrypt.compareSync(password, fromDb.password);
 		if (areTheSame === true) {
 			req.session.username = username
+			req.session._id = fromDb._id
 			res.json({
 				url: `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
 			});
@@ -140,7 +150,8 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 				'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
 			});
 		}
-	} catch {
+	} catch (err){
+		console.log(err)
 		res.json({
 			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
 		});
@@ -226,8 +237,9 @@ app.post("/readDB", jsonPaser, async function(req, res){
 				users = await User.find().exec();
 				users.forEach(function(doc, i , users){
 					let files = doc.documents;
+					let id = doc._id
 					files.forEach(function (doc, i , files){
-						sortedFiles.push(doc)
+						sortedFiles.push({_id: id, file: doc})
 					})
 				})
 				res.json({
@@ -348,6 +360,7 @@ app.post("/DBdelete", jsonPaser, async function(req, res){
 app.post("/DBedit", jsonPaser, async function(req, res){
 	if(!req.body) return res.sendStatus(400);
 	let id = req.body.id;
+	let filename = req.body.filename
 	let username = req.body.username;
 	let database = req.body.database;
 	let password = req.body.password;
