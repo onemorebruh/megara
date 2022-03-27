@@ -22,7 +22,6 @@ const Admin = require("./models/adminuser");
 
 //config
 const config = require("./config");
-const users = require("./models/users");
 console.table(config);
 
 
@@ -99,14 +98,21 @@ app.post("/login", jsonPaser, async function(req, res){
 	email = req.body.email;
 	password = req.body.password;
 	// find user in db
-	const fromDb = await User.findOne({username, email}).exec();
+	const fromDb = await User.findOne({username}).exec();
 	// compare user from form and from db
-	areTheSame = await bcrypt.compareSync(password, fromDb.password);
-	if (areTheSame === true) {
-		req.session.username = username
-		res.json({
-			url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
-	} else {
+	try{
+		areTheSame = await bcrypt.compareSync(password, fromDb.password);
+		if (areTheSame === true && email ==fromDb.email) {
+			req.session.username = username
+			res.json({
+				url: `${config.protocol}://${config.ip}:${config.port}?username=${username}`});
+		} else {
+			res.json({
+				'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
+			});
+		}
+
+	} catch {
 		res.json({
 			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
 		});
@@ -122,13 +128,19 @@ app.post("/adminlogin", jsonPaser, async function(req, res){
 	// find user in db
 	const fromDb = await Admin.findOne({username}).exec();
 	// compare user from form and from db
-	areTheSame = await bcrypt.compareSync(password, fromDb.password);
-	if (areTheSame === true) {
-		req.session.username = username
-		res.json({
-			url: `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
-		});
-	} else {
+	try{
+		areTheSame = await bcrypt.compareSync(password, fromDb.password);
+		if (areTheSame === true) {
+			req.session.username = username
+			res.json({
+				url: `${config.protocol}://${config.ip}:${config.port}/admin?user=${fromDb._id}`
+			});
+		} else {
+			res.json({
+				'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
+			});
+		}
+	} catch {
 		res.json({
 			'url': `${config.protocol}://${config.ip}:${config.port}/bdusr`
 		});
@@ -161,13 +173,11 @@ app.post("/newFile", jsonPaser, async function(req, res){
 					fs.writeFileSync(`${__dirname}/public/${username}/${filename}`, text);
 					message = 'file is succesfully saved';}
 					fromDb.documents.push(`${__dirname}/public/${username}/${filename}`)
-					await User.findByIdAndUpdate(fromDb._id, {documents: fromDb.documents}, function(err, doc) {
-						if (err) return console.log(err);
-						return console.log(doc, "\nsucessfully added");
-					});
+					await User.findByIdAndUpdate(fromDb._id, {documents: fromDb.documents}).exec();
 					console.log(message)
 				res.json({message: message})
-			} catch {
+			} catch (err){
+				console.log(`error -> ${err}`);
 				setTimeout(() => {
 					message = 'something is wrong with your file. it is not saved :('
 					res.json({message: message})
@@ -399,3 +409,5 @@ app.get("/adminLogin", function(req, res) {
 
 app.use(express.static(__dirname + "/static"));
 app.listen(config.port, config.ip );
+
+module.exports.app = app;

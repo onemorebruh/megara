@@ -203,7 +203,7 @@ deletes files via admin page
 - [ ] add animations
 - [x] make admin panel's buttons look better
 
-[ ] admin
+[mvp] admin
 - [x] admin model in database
 - [x] admin panel
 - [mvp] acces to the database via webpage
@@ -219,7 +219,7 @@ deletes files via admin page
 - [ ] validation
 - [mvp] login
 - - [x] fix redirects when login or sign up
-- - [ ] add check for password and email, so service will be much more secure
+- - [x] add check for password and email, so service will be much more secure
 - [x] sessions
 - [x] personsal storages
 - - [x] make both buttons and resultButtons work(now work resultButtons only)
@@ -233,14 +233,15 @@ deletes files via admin page
 - - - [x] the server's response in not json, so it does not work as it have to
 - - [x] download button
 - - [ ] make acces to saving data more secure
+- [ ] logs
+- [ ] mvc
 
-[ ] tests
-- [ ] test database
-- [ ] requsets test
-- [ ] ui test
+[x] tests
+- [x] test database
+- [x] requsets test
 
 ## bugs
 
-- [ ] crashes when give uncorrect user's data when login
-- [ ] writes error in /newFile POST but haven't been crashed
+- [x] crashes when give uncorrect user's data when login
+- [x] writes error in /newFile POST but haven't been crashed
 - [x] duplicates file in database when saves file
