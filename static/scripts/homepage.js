@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             docName = doc[doc.length - 1]
             //visualize
             //source -> templates/cards.html
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv"><p class="fileName">${docName}</p><div class="fileImg">${SVG.txt}</div><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div></div>`);
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="${docName}"><p class="fileName">${docName}</p><div class="fileImg">${SVG.txt}</div><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button></div></div>`);
         });
     });
     req.send(file);
@@ -110,7 +110,7 @@ async function search(text){
         var docName = doc[doc.length - 1]
         if (docName.includes(text)){
             //source -> templates/searchResult.html
-            results += `<div class="searchResult"><div class="resultSVG">${SVG.txt}</div><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}')">delete</button></div>`
+            results += `<div class="searchResult" id="${docName}"><div class="resultSVG">${SVG.txt}</div><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button></div>`
         }
     }
     )
@@ -123,7 +123,7 @@ async function search(text){
         document.body.insertAdjacentHTML('beforeend', `<div id="searchResults">${results}</div>`);}
 }
 
-function deleteFile(filename){
+function deleteFile(filename, docName){
     var message = JSON.stringify({filename: filename, username: username})
     console.log(message)
     let req = new XMLHttpRequest();
@@ -132,6 +132,7 @@ function deleteFile(filename){
     req.addEventListener("load", function () {
         console.log(req.response);
         alert("file is deleted, please refresh page")
+        document.getElementById(docName).classList.add("deleted");
         return false
         });
     req.send(message);

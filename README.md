@@ -1,6 +1,6 @@
 # megara
 
-- status - DEV
+- status - FINISHED
 
 ## decription
 ---
@@ -208,20 +208,20 @@ deletes files via admin page
 - [x] search line template
 - [x] user menu template
 - [x] admin tables templates
-- [ ] add animations
+- [x] add animations
 - [x] make admin panel's buttons look better
 
-[mvp] admin
+[x] admin
 - [x] admin model in database
 - [x] admin panel
-- [mvp] acces to the database via webpage
+- [x] acces to the database via webpage
 - - [x] get 3 responses(not 1) and visualize them
 - - [x] editing files from admin page
 - - [x] delete lines via webpage
 - - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
 
-[mvp] logic
+[x] logic
 - [x] check for existing in db when registration
 - [x] check for existing in db when login
 - [x] validation
@@ -241,7 +241,7 @@ deletes files via admin page
 - - - [x] the server's response in not json, so it does not work as it have to
 - - [x] download button
 - - [x] make acces to saving data more secure
-- [ ] logs
+- [x] logs
 - [ ] mvc
 
 [x] tests
@@ -254,3 +254,4 @@ deletes files via admin page
 - [x] writes error in /newFile POST but haven't been crashed
 - [x] duplicates file in database when saves file
 - [x] crashe when creates new admin with empty data
+- [ ] makes first file of user disappear when delete file via admin page

@@ -3,3 +3,7 @@
     transition-property: background-color;
     transition-duration: 3s;
 }
+
+.deleted{
+    display: none;
+}

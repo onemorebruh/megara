@@ -19,6 +19,7 @@ const bcrypt = require("bcryptjs");
 mongoose.connect("mongodb://localhost:27017/megara", { useUnifiedTopology: true, useNewUrlParser: true});
 const User = require("./models/users");
 const Admin = require("./models/adminuser");
+const Log = require("./models/log");
 
 //config
 const config = require("./config");
@@ -68,6 +69,7 @@ app.post("/adminReg", jsonPaser, async function(req, res){
 		res.sendStatus(400);
 	} else{
 		admin = await Admin.findById(req.session._id).exec();
+		logAction(admin.username, "created new admin");
 		if (admin.tables.includes("admins")){
 			collections = mongoose.connections[0].collections;
 			username = req.body.username;
@@ -399,6 +401,7 @@ app.get("/", async function(req, res) {
 		res.redirect(`${config.protocol}://${config.ip}:${config.port}/login`)
 		
 	} else {
+		logAction(req.session.username, "loged as user");
 		res.sendFile(__dirname + "/static/homepage/index.html");
 	}
 });
@@ -408,6 +411,7 @@ app.get("/admin", function(req, res) {
 	if (!req.session.username){//redirect
 		res.redirect(`${config.protocol}://${config.ip}:${config.port}/adminLogin`)
 	} else {
+		logAction(req.session.username, "loged as admin");
 		if (device.includes("Apple")) {//even android devices have AppleWebKit in user-agent
 			res.sendFile(__dirname + "/static/admin/mobile.html");
 		} else {
@@ -424,3 +428,13 @@ app.use(express.static(__dirname + "/static"));
 app.listen(config.port, config.ip );
 
 module.exports.app = app;
+
+function logAction (user, action){
+	try{
+		let time = Date();
+		const log = new Log({username: user, action: action, time: time})
+		log.save();
+	} catch (err){
+		console.log(err)
+	}
+}
