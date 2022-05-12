@@ -41,11 +41,10 @@ var saveButton = document.getElementById('SaveButton').addEventListener("click",
       text: document.getElementById('text').value,
       filename: document.getElementById("filename").value,
       username: username,
-      binary: document.getElementById("editorFileInput").value
   });
   console.log(file)
   let req = new XMLHttpRequest();
-  req.open("POST", "/newFile", true);   
+  req.open("POST", "/api/file/new", true);   
   req.setRequestHeader("Content-Type", "application/json");
   req.addEventListener("load", function () {
       let answer = JSON.parse(req.response);
@@ -62,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
         username: username
     })
     let req = new XMLHttpRequest();
-    req.open("POST", "/readFiles", true);   
+    req.open("POST", "/api/readFiles", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -127,7 +126,7 @@ function deleteFile(filename, docName){
     var message = JSON.stringify({filename: filename, username: username})
     console.log(message)
     let req = new XMLHttpRequest();
-    req.open("POST", "/deleteFile", true);   
+    req.open("POST", "/api/file/delete", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         console.log(req.response);
@@ -142,7 +141,7 @@ function editFile(filename){
     var message = JSON.stringify({filename: filename, username: username})
     console.log(message)
     let req = new XMLHttpRequest();
-    req.open("POST", "/editFile", true);   
+    req.open("POST", "/api/file/edit", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", async function () {
         console.log(req.response);
@@ -164,7 +163,7 @@ function editFile(filename){
 function downloadFile(filename){
     var message = JSON.stringify({filename: filename, username: username})
     let req = new XMLHttpRequest();
-    req.open("POST", "/editFile", true);   //it reads file's data but not edit
+    req.open("POST", "/api/file/edit", true);   //it reads file's data but not edit
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", async function () {
         var answer = await JSON.parse(req.response);

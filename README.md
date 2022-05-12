@@ -201,7 +201,7 @@ deletes files via admin page
 
 ## TODO
 ---
-[mvp] design
+[x] design
 - [x] choose svgs
 - [x] editor template
 - [x] card template
@@ -220,6 +220,7 @@ deletes files via admin page
 - - [x] delete lines via webpage
 - - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
+- [ ] rewrite it so admin will see only what it should see but not all tables
 
 [x] logic
 - [x] check for existing in db when registration
@@ -242,7 +243,8 @@ deletes files via admin page
 - - [x] download button
 - - [x] make acces to saving data more secure
 - [x] logs
-- [ ] mvc
+- [ ] change check for Apple to android/iphone cause chrome have Apple in user-agent
+- [x] mvc
 
 [x] tests
 - [x] test database

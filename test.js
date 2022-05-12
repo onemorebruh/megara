@@ -30,23 +30,23 @@ describe("actions with user", async function() {
 
 describe("get requests", async function() {
 
-    await it("/login", function(done) {
+    await it("/user/login", function(done) {
         request(app)
-        .get("/login")
+        .get("/user/login")
         .expect(`${loginHTML}`)
         .end(done);
     })
 
-    await it("/bdusr", function(done) {
+    await it("/user/bdusr", function(done) {
         request(app)
-        .get("/bdusr")
+        .get("/user/bdusr")
         .expect(`${bdusrHTML}`)
         .end(done);
     })
     
-    await it("/adminlogin", function(done) {
+    await it("/admin/login", function(done) {
         request(app)
-        .get("/adminlogin")
+        .get("/admin/login")
         .expect(`${adminLoginHTML}`)
         .end(done);
     })

@@ -14,7 +14,7 @@ var loginButton = document.getElementById("loginButton").addEventListener("click
                 let user = JSON.stringify({username: username, email: email, password: password});
                 let req = new XMLHttpRequest();
                 // посылаем запрос на адрес "/user"
-                req.open("POST", "/login", true);   
+                req.open("POST", "/user/login", true);   
                 req.setRequestHeader("Content-Type", "application/json");
                 req.addEventListener("load", function () {
                     // получаем и парсим ответ сервера
@@ -50,7 +50,7 @@ var signupButton = document.getElementById("signupButton").addEventListener("cli
                 let user = JSON.stringify({username: username, email: email, password: password});
                 let req = new XMLHttpRequest();
                 // посылаем запрос на адрес "/user"
-                req.open("POST", "/userReg", true);   
+                req.open("POST", "/user/reg", true);   
                 req.setRequestHeader("Content-Type", "application/json");
                 req.addEventListener("load", function () {
                     // получаем и парсим ответ сервера

@@ -110,7 +110,7 @@ function newAdmin(){
         password: password
     });
     let req = new XMLHttpRequest();
-    req.open("POST", "/adminReg", true);   
+    req.open("POST", "/admin/reg", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -127,7 +127,7 @@ function DBdelete (id, database, filename="") {
         filename: filename,
     });
     let req = new XMLHttpRequest();
-    req.open("POST", "/DBdelete", true);   
+    req.open("POST", "/api/DB/delete", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -149,7 +149,7 @@ function DBedit (id, database) {
         password: password
     });
     let req = new XMLHttpRequest();
-    req.open("POST", "/DBedit", true);   
+    req.open("POST", "/api/DB/edit", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -165,7 +165,7 @@ async function readFromDB (readingObject) {//load filenames from db
     })
     let req = new XMLHttpRequest();
     let sortedArray = [];
-    req.open("POST", "/readDB", true);   
+    req.open("POST", "/api/DB/read", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);

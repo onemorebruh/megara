@@ -10,7 +10,7 @@ var loginButton = document.getElementById("loginButton").addEventListener("click
             let user = JSON.stringify({username: username, password: password});
             let req = new XMLHttpRequest();
             // посылаем запрос на адрес "/user"
-            req.open("POST", "/adminlogin", true);   
+            req.open("POST", "/admin/login", true);   
             req.setRequestHeader("Content-Type", "application/json");
             req.addEventListener("load", function () {
                // получаем и парсим ответ сервера
