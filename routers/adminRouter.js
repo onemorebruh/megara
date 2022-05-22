@@ -20,7 +20,7 @@ adminRouter.get("/", function(req, res) {
 		res.redirect(`${config.protocol}://${config.ip}:${config.port}/admin/login`)
 	} else {
 		logAction(req.session.username, "loged as admin");
-		if (device.includes("Apple")) {//even android devices have AppleWebKit in user-agent
+		if (device.includes("Mobile")) {
 			res.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/mobile.html");
 		} else {
 			res.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/desktop.html");

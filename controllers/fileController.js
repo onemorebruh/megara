@@ -19,6 +19,10 @@ exports.new = async function(req, res){
     username = req.body.username;
 	text = req.body.text;
 	filename = req.body.filename;
+	//check for extention
+	if(filename.includes(".") == false){
+		filename += ".txt"
+	}
 	//check for user in db
 	const fromDb = await User.findOne({username}).exec();
 	if(fromDb){

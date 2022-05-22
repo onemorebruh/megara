@@ -16,7 +16,7 @@ const fs = require('fs');
 //database
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-mongoose.connect("mongodb://localhost:27017/megara", { useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect(config.dburl, { useUnifiedTopology: true, useNewUrlParser: true});
 const User = require("./models/users");
 const Admin = require("./models/adminuser");
 const Log = require("./models/log");

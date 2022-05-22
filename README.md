@@ -17,6 +17,27 @@ megara is a simple cloud server for easy saving data on your local network
 | #b23c17 | buttons         |
 | #f5f5f5 | text in buttons |
 
+
+## updates
+### 67ee7 - cahnged api 
+
+| old api uri | new api uri     |
+|-------------|-----------------|
+| /userReg    | /user/reg       |
+| /login      | /user/login     |
+| /           | /user/          |
+| /bduser     | /user/bdusr     |
+| /adminlogin | /admin/login    |
+| /adminReg   | /admin/reg      |
+| /newFile    | /api/file/new   |
+| /readFiles  | /api/readFiles  |
+| /deleteFile | /api/file/delete|
+| /editFile   | /api/file/edit  |
+| /readDB     | /api/DB/read    |
+| /DBdelete   | /api/DB/delete  |
+| /DBedit     | /api/DB/edit    |
+
+
 ## api
 ---
 ### /userReg
@@ -191,6 +212,8 @@ deletes files via admin page
 8. ```bash
    npm install
 9.  ```bash
+    node getStarted.js adminUsername password email
+10. ```bash
     node index.js
 
 ## configuration
@@ -210,6 +233,7 @@ deletes files via admin page
 - [x] admin tables templates
 - [x] add animations
 - [x] make admin panel's buttons look better
+- [ ] redesign
 
 [x] admin
 - [x] admin model in database
@@ -221,6 +245,7 @@ deletes files via admin page
 - - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
 - [ ] rewrite it so admin will see only what it should see but not all tables
+- [ ] log more activities
 
 [x] logic
 - [x] check for existing in db when registration
@@ -243,8 +268,11 @@ deletes files via admin page
 - - [x] download button
 - - [x] make acces to saving data more secure
 - [x] logs
-- [ ] change check for Apple to android/iphone cause chrome have Apple in user-agent
 - [x] mvc
+- [x] change check for Apple to android/iphone cause chrome have Apple in user-agent
+- [x] automatically add extention after filename if there is no extention. example foo -> foo.txt
+- [ ] add photos and videos by drag n drop
+- [x] get_started script
 
 [x] tests
 - [x] test database

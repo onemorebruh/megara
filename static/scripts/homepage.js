@@ -37,6 +37,7 @@ findFileButton.addEventListener("click", function (e) {
 
 var saveButton = document.getElementById('SaveButton').addEventListener("click", async function (e) {
   e.preventDefault();
+  
   var file = await JSON.stringify({
       text: document.getElementById('text').value,
       filename: document.getElementById("filename").value,
@@ -74,7 +75,15 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             docName = doc[doc.length - 1]
             //visualize
             //source -> templates/cards.html
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="${docName}"><p class="fileName">${docName}</p><div class="fileImg">${SVG.txt}</div><div class="editButtons"><button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button></div></div>`);
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="${docName}">
+                                                                <p class="fileName">${docName}</p>
+                                                                <div class="fileImg">${SVG.txt}</div>
+                                                                <div class="editButtons">
+                                                                    <button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button>
+                                                                    <button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button>
+                                                                    <button class="deleteButton" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button>
+                                                                </div>
+                                                            </div>`);
         });
     });
     req.send(file);
@@ -109,7 +118,13 @@ async function search(text){
         var docName = doc[doc.length - 1]
         if (docName.includes(text)){
             //source -> templates/searchResult.html
-            results += `<div class="searchResult" id="${docName}"><div class="resultSVG">${SVG.txt}</div><span class="resultName">${docName}</span><button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button><button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button><button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button></div>`
+            results += `<div class="searchResult" id="${docName}">
+                            <div class="resultSVG">${SVG.txt}</div>
+                            <span class="resultName">${docName}</span>
+                            <button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button>
+                            <button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button>
+                            <button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button>
+                        </div>`
         }
     }
     )
@@ -179,3 +194,33 @@ function downloadFile(filename){
     req.send(message);
 
 }
+document.getElementById("editorMainDiv").addEventListener("drop", function(e){
+    e.preventDefault;
+    if (e.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (var i = 0; i < e.dataTransfer.items.length; i++) {
+          // If dropped items aren't files, reject them
+          if (e.dataTransfer.items[i].kind === 'file') {
+            var file = e.dataTransfer.items[i].getAsFile();
+            console.log(file);
+          }
+        }
+      } else {
+        // Use DataTransfer interface to access the file(s)
+        for (var i = 0; i < e.dataTransfer.files.length; i++) {
+          console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+        }
+      }
+    message = new FormData();
+    message.append("photo", file);
+        let req = new XMLHttpRequest();
+        req.open("POST", "/api/file/edit", true);   
+        req.setRequestHeader("Content-Type", "application/json");
+        req.addEventListener("load", async function () {
+        console.log(req.response);
+        var answer = await JSON.parse(req.response);
+        console.log(answer.text)
+        editor.style.display = 'none';
+        });
+        req.send(message);
+})

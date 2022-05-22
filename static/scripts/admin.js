@@ -29,7 +29,17 @@ document.getElementById("usersPanel").addEventListener("keyup", function (e){
         userArray.forEach(function (doc, i, userArray){
             if(doc.username.includes(name)){
                 if(doc.email.includes(email)){
-                    userResults += `<div id="${doc._id}"><span>${doc.username}</span><span>${doc.email}</span><span>${doc.documents.length}</span><span onclick="DBedit('${doc._id}', 'user')">${SVG.edit}</span><span onclick="DBdelete('${doc._id}', 'user')">${SVG.trash}</span></div>`
+                    userResults += `<div id="${doc._id}">
+                                        <span>${doc.username}</span>
+                                        <span>${doc.email}</span>
+                                        <span>${doc.documents.length}</span>
+                                        <span onclick="DBedit('${doc._id}', 'user')">
+                                            ${SVG.edit}
+                                        </span>
+                                        <span onclick="DBdelete('${doc._id}', 'user')">
+                                            ${SVG.trash}
+                                        </span>
+                                    </div>`
                 }
             }
         });
@@ -54,7 +64,17 @@ document.getElementById("adminsPanel").addEventListener("keyup", function (e){
         adminArray.forEach(function (doc, i, adminArray){
             if(doc.username.includes(name)){
                 if(doc.email.includes(email)){
-                    adminResults += `<div id="${doc._id}"><span>${doc.username}</span><span>${doc.email}</span><span>${doc.tables.length}</span><span onclick="DBedit('${doc._id}', 'admin')">${SVG.edit}</span><span onclick="DBdelete('${doc._id}', 'admin')">${SVG.trash}</span></div>`
+                    adminResults += `<div id="${doc._id}">
+                                        <span>${doc.username}</span>
+                                        <span>${doc.email}</span>
+                                        <span>${doc.tables.length}</span>
+                                        <span onclick="DBedit('${doc._id}', 'admin')">
+                                            ${SVG.edit}
+                                        </span>
+                                        <span onclick="DBdelete('${doc._id}', 'admin')">
+                                            ${SVG.trash}
+                                        </span>
+                                    </div>`
                 }
             }
         });
@@ -83,7 +103,12 @@ document.getElementById("filesPanel").addEventListener("keyup", function (e){
             let docName = doc.file; //splits and get the last element of array
             if (docName.includes(name)){
                 if (docName.includes(extention)){
-                    filesResults += `<div id="${doc_id}"><span>${docName}</span><span onclick="DBdelete('${doc_id}', 'file', '${docName}')">${SVG.trash}</span></div>`
+                    filesResults += `<div id="${doc_id}">
+                                        <span>${docName}</span>
+                                        <span onclick="DBdelete('${doc_id}', 'file', '${docName}')">
+                                            ${SVG.trash}
+                                        </span>
+                                    </div>`
                 }
             }
         });
