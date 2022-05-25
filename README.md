@@ -40,7 +40,7 @@ megara is a simple cloud server for easy saving data on your local network
 
 ## api
 ---
-### /userReg
+### /user/reg
 >example of json:
 {
     "username": "foo",
@@ -56,7 +56,7 @@ megara is a simple cloud server for easy saving data on your local network
 
 while the last commit is deed4ae3 token is useless
 
-### /login
+### /user/login
 >example of json:
 {
     "username": "foo",
@@ -74,7 +74,7 @@ difference between /userReg and /login:
 - in /login user have to exist in database
 - in /userReg database gets new user's data
 
-### /adminlogin
+### /admin/login
 >example of json:
 {
     "username": "foo",
@@ -91,7 +91,7 @@ have to give acces to the admin's page if data is correct
 
 while the last commit is deed4ae3 is not released
 
-### /newFile
+### /api/file/new
 >example of json:
 {
     "username": "foo",
@@ -110,7 +110,7 @@ usage:
 - rewrite file if it already exists in directory
 - creates directories if they don't exist
 
-### /readFiles
+### /api/readFiles
 >example of json:
 {
     "username": "foo"
@@ -125,7 +125,7 @@ usage:
 
 reads files from database so homepage.js script will visualaize it in browser
 
-### /deleteFile
+### /api/file/delete
 >example of json:
 {
     "username": "foo",
@@ -139,7 +139,7 @@ reads files from database so homepage.js script will visualaize it in browser
 
 deletes file from directory and database
 
-### /editFile
+### /api/file/edit
 >example of json:
 {
     "username": "foo",
@@ -154,7 +154,7 @@ deletes file from directory and database
 
 sends the data of the file to the browser
 
-### /DBedit
+### api/DB/edit
 >example of json:
 {
     "id": "621f6cc6ac7450dd7142f4d2",
@@ -171,7 +171,7 @@ sends the data of the file to the browser
 
 edits files on admin page
 
-### /DBedit
+### api/DB/delete
 >example of json:
 {
     "id": "621f6cc6ac7450dd7142f4d2",
@@ -285,3 +285,4 @@ deletes files via admin page
 - [x] duplicates file in database when saves file
 - [x] crashe when creates new admin with empty data
 - [ ] makes first file of user disappear when delete file via admin page
+- [ ] if you make the same admin and user you do not authorize when login as admin

@@ -1,4 +1,4 @@
 node_modules/
 package-lock.json
-contlollers/public/foo/
-contlollers/public/ira/
+contlollers/public/foo/*
+contlollers/public/ira/*

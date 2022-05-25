@@ -12,6 +12,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const fs = require('fs');
+const config = require("./config");
 
 //database
 const mongoose = require("mongoose");
@@ -22,7 +23,6 @@ const Admin = require("./models/adminuser");
 const Log = require("./models/log");
 
 //config
-const config = require("./config");
 console.table(config);
 
 //routers

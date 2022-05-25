@@ -18,42 +18,45 @@ async function checkForUser (){
 }
 checkForUser();
 //write username in the button
-userButton.insertAdjacentHTML('afterbegin', `<span>${username}</span>`);
+userButton.insertAdjacentHTML('afterbegin', `<span>${username}</span>`);//writes username
 
-newFileButton.addEventListener("click", function (e) {
+newFileButton.addEventListener("click", function (e) {// shows text editor
     e.preventDefault();
     editor.style.display = 'block';
 })
 
-findFileButton.addEventListener("click", function (e) {
+findFileButton.addEventListener("click", function (e) {h
     e.preventDefault();
-    if(findForm.style.display == 'block'){
+    if(findForm.style.display == 'block'){//hides search if it is visible
         findForm.style.display = 'none';
         document.getElementById("searchResults").style.display = "none";
     } else {
-        findForm.style.display = 'block';
+        findForm.style.display = 'block';//shows search
     }
 })
 
-var saveButton = document.getElementById('SaveButton').addEventListener("click", async function (e) {
+var saveButton = document.getElementById('SaveButton').addEventListener("click", async function (e) {//saves file
   e.preventDefault();
   
-  var file = await JSON.stringify({
+  var file = await JSON.stringify({//makes object
       text: document.getElementById('text').value,
       filename: document.getElementById("filename").value,
       username: username,
   });
   console.log(file)
-  let req = new XMLHttpRequest();
+  let req = new XMLHttpRequest();//generates request
   req.open("POST", "/api/file/new", true);   
   req.setRequestHeader("Content-Type", "application/json");
-  req.addEventListener("load", function () {
+  req.addEventListener("load", function () {//when response came back
       let answer = JSON.parse(req.response);
       alert(answer.message);
-      //alert(answer.message);
   });
+  //send request, hide editor and update the page so new file will appear
   req.send(file);
   editor.style.display = 'none';
+  setTimeout(function(){
+    location.reload(true);
+  }, 2000);
 })
 
 document.addEventListener("DOMContentLoaded", async function readFromDBAndVisualaze (e) {//load filenames from db
@@ -74,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             doc = doc.split("/");
             docName = doc[doc.length - 1]
             //visualize
-            //source -> templates/cards.html
+            //source -> templates/cards.html                    file object template
             document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="${docName}">
                                                                 <p class="fileName">${docName}</p>
                                                                 <div class="fileImg">${SVG.txt}</div>
@@ -89,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
     req.send(file);
 });
 
-document.addEventListener("keyup", function (e){
+document.addEventListener("keyup", function (e){// reloads search each time user pressed any button
     if (findForm.style.display == "block"){
         e.preventDefault;
         var text = document.getElementById("dataToFind").value;
@@ -97,7 +100,7 @@ document.addEventListener("keyup", function (e){
     }
 })
 
-document.getElementById("user").addEventListener('click', function (e) {
+document.getElementById("user").addEventListener('click', function (e) {//opens and close user menu
     e.preventDefault;
     if(document.getElementById("userMenu").style.display == 'block'){
     document.getElementById("userMenu").style.display = 'none';
@@ -145,7 +148,7 @@ function deleteFile(filename, docName){
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         console.log(req.response);
-        alert("file is deleted, please refresh page")
+        alert("file is deleted");
         document.getElementById(docName).classList.add("deleted");
         return false
         });
@@ -162,14 +165,9 @@ function editFile(filename){
         console.log(req.response);
         var answer = await JSON.parse(req.response);
         console.log(answer.text)
-        var binary = req.response.binary
-        if (binary == undefined) {
-            editor.style.display = 'block';
-            document.getElementById("filename").value = filename;
-            document.getElementById("text").value = answer.text;
-        } else {
-            alert("this function is unavaliable now. comming soon")
-        }
+        editor.style.display = 'block';
+        document.getElementById("filename").value = filename;
+        document.getElementById("text").value = answer.text;
         return false
         });
     req.send(message);
@@ -194,7 +192,7 @@ function downloadFile(filename){
     req.send(message);
 
 }
-document.getElementById("editorMainDiv").addEventListener("drop", function(e){
+document.getElementById("editorMainDiv").addEventListener("drop", function(e){//rewrite
     e.preventDefault;
     if (e.dataTransfer.items) {
         // Use DataTransferItemList interface to access the file(s)
