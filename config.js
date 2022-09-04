@@ -1,13 +1,10 @@
-var config = 
-		{
-		port: 3000,
-		ip: "192.168.0.100",
-		signature: "megara",
-		protocol: 'http',
-		db_url: 'mysql://megara:megara@127.0.0.1:3306/megara',
-		db_name: "megara",
+var config = {
+		ip: "127.0.0.1",
+		db: "megara",
 		db_user: "megara",
-		db_user_password: "megara",
-		db_host: "127.0.0.1",
-		};
+		db_password: "megara",
+		port: 3000,
+		protocol: "http",
+};
+
 module.exports = config;

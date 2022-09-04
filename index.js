@@ -1,43 +1,23 @@
-//	 _ __ ___   ___  __ _  __ _ _ __ __ _ 
-//	| '_ ` _ \ / _ \/ _` |/ _` | '__/ _` |
-//	| | | | | |  __/ (_| | (_| | | | (_| |
-//	|_| |_| |_|\___|\__, |\__,_|_|  \__,_|
-//					|___/                 
-
-//web server
 const express = require("express");
 const app = express();
-const jsonPaser = express.json();
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const expressSession = require("express-session");
-const fs = require('fs');
+const Sequelize = require("sequelize");
 const config = require("./config");
 
-//database
-const bcrypt = require("bcryptjs");
-//config
-console.table(config);
-
-//routers
-const userRouter = require("./routers/userRouter");
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(cookieParser(config.signature));
-app.use(expressSession({
-		secret: config.signature,
-}));
-
-app.use("/user", userRouter);
-
-
-app.get("/", function(req, res){
-	res.send("aboba");
-})
+const sequelize = new Sequelize(config.db, config.db_user, config.db_password, {
+  dialect: "mariadb",
+  host: config.ip
+});
 
 app.use(express.static(__dirname + "/static"));
-app.listen(config.port, config.ip );
 
-module.exports.app = app;
+app.get("/", function (request, response){
+		response.sendFile(__dirname + "/templates/login/index.html");
+});
+
+app.get("/admin", function (request, response){
+		response.sendFile(__dirname + "/templates/admin/index.html");
+});
+
+console.table(config);
+
+app.listen(config.port, config.ip);
