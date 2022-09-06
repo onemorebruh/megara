@@ -11,6 +11,8 @@ megara is a simple cloud service written on nodejs
 |||-login.html	- template of login page
 |-static		- contains static files such as css and js
 ||-styles.css	- main file of styles
+||-scripts		- contains all the frontend scripts
+|||-login.js	- frontend scripts of the login page
 |-README.md		- this file
 |-node_modules	- dependencies
 |-models.js		- file with models and their's syncronization script

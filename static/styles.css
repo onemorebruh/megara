@@ -35,6 +35,7 @@ header h1 {
 }
 
 header a, header button {
+
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -45,6 +46,7 @@ header a, header button {
 		height: 2rem;
 		text-decoration: none;
 		margin: 4px;
+		color: black;
 }
 
 #loginDiv {

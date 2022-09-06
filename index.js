@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const jsonParser = express.json();
 const Sequelize = require("sequelize");
 const config = require("./config");
 
@@ -16,6 +17,14 @@ app.get("/", function (request, response){
 
 app.get("/admin", function (request, response){
 		response.sendFile(__dirname + "/templates/admin/index.html");
+});
+
+app.post("/admin", jsonParser, function (request, response){
+		if(!request.body){
+				return response.sendStatus(400);
+		} else {
+				response.json({"message": "success"});
+		}
 });
 
 console.table(config);
