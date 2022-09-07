@@ -23,7 +23,7 @@ const Role = sequelize.define("role", {
 				type: Sequelize.BOOLEAN,
 				default: false,
 		},
-		acessToUsers: {
+		accessToUsers: {
 				type: Sequelize.BOOLEAN,
 				default: false,
 		},
@@ -86,7 +86,7 @@ User.belongsTo(Role);
 Log.belongsTo(User);
 File.belongsTo(User);
 
-sequelize.sync({force: true}).then(result=>{
+sequelize.sync({alter: true}).then(result=>{
 		console.log(result);
 }).catch(err=> console.log(err));
 

@@ -5,6 +5,7 @@ var config = {
 		db_password: "megara",
 		port: 3000,
 		protocol: "http",
+		secret: "meagra",
 };
 
 module.exports = config;

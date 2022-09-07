@@ -17,7 +17,7 @@ header {
 		width: 100%;
 		position: absolute;
 		top: 0;
-		height: 3em;
+		height: 48px;
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: end;
@@ -35,7 +35,6 @@ header h1 {
 }
 
 header a, header button {
-
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -43,10 +42,9 @@ header a, header button {
 		width: 10rem;
 		background-color: #99ccff;
 		border-radius: 1em;
-		height: 2rem;
+		height: 40px;
 		text-decoration: none;
 		margin: 4px;
-		color: black;
 }
 
 #loginDiv {
@@ -75,4 +73,37 @@ header a, header button {
 		background-color: #ffffcc;
 		border-radius: 1em;
 		margin: 4px;
+}
+
+#databasesUl {
+		position: absolute;
+		top: 48px;
+		left: 0;
+		background-color: #ffffcc;
+		padding: 0.5em;
+		margin: 4px;
+		border-radius: 1em;
+		list-style: none;
+}
+
+.databaseLi {
+		margin: 4px;
+		padding: 0.5em;
+		border-radius: 1em;
+		background-color: #99ccff;
+		height: 1em;
+		width: 5em;
+		text-align: center;
+}
+
+#main {
+		position: absolute;
+		right: 0;
+		top: 48px;
+		width: calc(100vw - 130px - 8px - 1em);
+		height: calc(100vh - 48px - 8px - 1em);
+		background-color: #ffffcc;
+		margin: 4px;
+		padding: 0.5em;
+		border-radius: 1em;
 }

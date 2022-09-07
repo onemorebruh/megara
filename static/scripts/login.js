@@ -2,15 +2,14 @@ var adminPanelButton = document.getElementById("adminPanelButton");
 
 adminPanelButton.addEventListener("click", async function(event){
 		event.preventDefault();
-		alert("aboba");
 		let response = await fetch("/admin", {
 				method: "POST",
 				headers: {
 						"Content-Type": "application/json;charset=utf-8"
 				},
 				body: JSON.stringify({
-						"login": document.getElementById("loginInput"), 
-						"password": document.getElementById("loginPassword")})
+						"login": document.getElementById("loginInput").value, 
+						"password": document.getElementById("loginPassword").value})
 		});
 
 		if(response.ok) {
