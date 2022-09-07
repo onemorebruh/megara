@@ -14,7 +14,8 @@ adminPanelButton.addEventListener("click", async function(event){
 
 		if(response.ok) {
 				let result = await response.json();
-				console.log(result);
+				alert(result.message);
+				window.location.replace(document.URL + result.url);
 		}else {
 				alert(response.status);
 		}

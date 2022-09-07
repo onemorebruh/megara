@@ -22,6 +22,10 @@ app.get("/", function (request, response){
 		response.sendFile(__dirname + "/templates/login/index.html");
 });
 
+app.get("/badUser", function( request, response) {
+		response.sendFile(__dirname + "/templates/badUser/index.html");
+});
+
 app.get("/admin", function (request, response){
 		//check for admin
 		if(request.session.role == "admin"){
@@ -29,6 +33,12 @@ app.get("/admin", function (request, response){
 		}else{
 				response.sendFile(__dirname + "/templates/badUser/index.html");
 		}
+});
+
+app.get("/admin/db/log", async function (request, response){
+		//get all logs and send them
+		log = await Log.findAll();
+		response.json(log);
 });
 
 app.post("/admin", jsonParser, async function (request, response){
@@ -46,15 +56,18 @@ app.post("/admin", jsonParser, async function (request, response){
 						limit: 1,
 				});
 				if (!dbUser[0]){//no user so browser gets error message
-						response.json({"message": "error. there is no such user in database"});
+						response.json({"message": "error. there is no such user in database",
+						"url": ""});
 				} else{
 						//compare users by password
 						console.log(dbUser[0].dataValues)
 						if (dbUser[0].dataValues.password == request.body.password){
 								request.session.role = "admin";
-								response.json({"message": "user succesfully auntificated"})
+								response.json({"message": "user succesfully auntificated",
+												"url": "admin"});
 						}else {
-								response.json({"message": "error. wrong password"})
+								response.json({"message": "error. wrong password",
+												"url": "badUser"});
 						}
 				}
 		}

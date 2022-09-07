@@ -11,6 +11,8 @@ megara is a simple cloud service written on nodejs
 |||-login.html	- template of login page
 ||-admin		- contains template of admin page
 |||-index.html	- template of admin page
+||-badUser 		- contains template of the page for naughty users
+|||-index.html	- template of the page for naughty users
 |-static		- contains static files such as css and js
 ||-styles.css	- main file of styles
 ||-scripts		- contains all the frontend scripts
@@ -46,6 +48,7 @@ example of response:
 ``` js
 {
 		message: "success",
+		urr: "/homepage"
 }
 ```
 
@@ -54,21 +57,32 @@ example of response:
 - [ ] design
 - - [x] do basic design for all site
 - - [x] design login page
-- - [ ] design admin menu
+- - [x] design admin menu
 - - [ ] design user's homepage
 - - [ ] design text editor
 - - [ ] css animations
+- - [x] design bad user page
 - [ ] logic
 - - [x] make wirte each action to the log
 - - [x] basic authorization
 - [ ] create admin panel
-- - [ ] add table generator for logs
+- - [x] add table generator for logs
 - - [ ] add table generator for users
 - - [ ] add table generator for files
 - - [ ] add table generator for roles
 - [x] create database's schemas
 - [ ] API
 - - [x] authorization as admin
+- - [ ] db requests
+- - - [x] get logs
+- - - [ ] get files
+- - - [ ] get users
+- - - [ ] get roles
+- - - [ ] delete user
+- - - [ ] delete file
+- - - [ ] delete role
+- - - [ ] edit user
+- - - [ ] edit file
 - - [ ] authorization as user
 - [ ] made it mvc
 - [ ] pages
@@ -76,3 +90,4 @@ example of response:
 - - [x] admin page
 - - [ ] about page
 - - [x] login page
+- - [x] bad user page
