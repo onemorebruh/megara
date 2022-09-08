@@ -3,7 +3,7 @@
 megara is a simple cloud service written on nodejs
 
 ## structure
-
+```
 |-index.js		- main file
 |-package.json	- contains information about project
 |-templates		- contains templates of web pages
@@ -20,10 +20,11 @@ megara is a simple cloud service written on nodejs
 ||-scripts		- contains all the frontend scripts
 |||-login.js	- frontend scripts of the login page
 |||-admin.js	- frontend scripts of the admin panel
+|||-homepage.js	- frontend scripts od the homepage
 |-README.md		- this file
 |-node_modules	- dependencies
 |-models.js		- file with models and their's syncronization script
-
+```
 ## design
 
 colors: #ffffcc, #99ccff
@@ -127,15 +128,14 @@ example of response:
 - [ ] logic
 - - [ ] hash passwords
 - - [ ] compare hashed passwords
-- - [ ] set roles by role id //so each page should check role's permissions to choose allow the acces or not
-- - [x] make wirte each action to the log
+- - [ ] make wirte each action to the log
 - - [x] basic authorization
 - [ ] create admin panel
 - - [x] add table generator for logs
 - - [ ] add table generator for users
 - - [ ] add table generator for files
-- - [ ] add table generator for roles
 - [x] create database's schemas
+- - [ ] make no roles just check for access by user
 - [ ] API
 - [x] registration
 - [x] authorization
@@ -144,7 +144,6 @@ example of response:
 - - - [x] get logs
 - - - [ ] get files
 - - - [ ] get users
-- - - [ ] get roles
 - - - [ ] delete user
 - - - [ ] delete file
 - - - [ ] delete role
@@ -157,3 +156,6 @@ example of response:
 - - [ ] about page
 - - [x] login page
 - - [x] bad user page
+- [ ] install script
+- - [ ] make it create database and user
+- - [ ] make it create users record user with all accesses equal true

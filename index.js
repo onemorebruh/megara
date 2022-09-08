@@ -1,10 +1,11 @@
 const express = require("express");
 const session = require("express-session");
+const { where } = require("sequelize");
 const app = express();
 const jsonParser = express.json();
 const Sequelize = require("sequelize");
 const config = require("./config");
-const {User, Log, File, Role} = require("./models");
+const {User, Log, File} = require("./models");
 
 const sequelize = new Sequelize(config.db, config.db_user, config.db_password, {//database connection
   dialect: "mariadb",
@@ -19,7 +20,6 @@ app.use(session({// adds sessions
 app.use(express.static(__dirname + "/static"));// adds static files
 
 app.get("/", function (request, response){
-		request.session.role = "Guest";
 		response.sendFile(__dirname + "/templates/login/index.html");
 });
 
@@ -27,9 +27,15 @@ app.get("/badUser", function( request, response) {
 		response.sendFile(__dirname + "/templates/badUser/index.html");
 });
 
-app.get("/admin", function (request, response){
+app.get("/admin", async function (request, response){
 		//check for admin
-		if(request.session.role == "Admin"){
+		user = await User.findAll({
+			where: {
+				login: request.session.username
+			}
+		})
+		user =  user[0]
+		if(user.dataValues.accessToLogs == true){
 				response.sendFile(__dirname + "/templates/admin/index.html");
 		}else{
 				response.sendFile(__dirname + "/templates/badUser/index.html");
@@ -38,8 +44,8 @@ app.get("/admin", function (request, response){
 
 
 app.get("/user", function (request, response){
-		//check for admin
-		if(request.session.role != "Guest"){
+		//check for user
+		if(request.session.username != undefined){
 				response.sendFile(__dirname + "/templates/homepage/index.html");
 		}else{
 				response.sendFile(__dirname + "/templates/badUser/index.html");
@@ -61,11 +67,11 @@ app.post("/user/reg", jsonParser, async function (request, response) {
 		if(result[0]){//find user with the same name
 				response.json({"message": "such user already exists, please use another login"});
 		} else{
-				//create new user (user role by default)
-				request.session.role = "User"
-				var record = User.build({ login: newUserInfo.login, password: newUserInfo.password, roleId: 3});
+				//create new user
+				var record = User.build({ login: newUserInfo.login, password: newUserInfo.password, accessToLogs: 0, accessToUsers: 0, accessToFiles: 0});
 				await record.save();
-				response.json({"message": "user succesfully registred", "url": "user/home"});
+				request.session.username = newUserInfo.login;
+				response.json({"message": "user succesfully registred", "url": `user&user=${newUserInfo.login}`});
 				writeLog(newUserInfo.login, "was succesfully registred");
 		}
 });
@@ -81,11 +87,12 @@ app.post("/user/login", jsonParser, async function (request, response) {
 				},
 				limit: 1
 		});
+		writeLog(userInfo.login, "tried to login");
 		if (result[0] || result[0].password == userInfo.password){//there is such user so check the passwords
-				request.session.role = "User"
+				request.session.username = userInfo.login;
 				response.json({
 						"message": "password is correct. press the 'ok' to move to the homepage",
-						"url": "user"
+						"url": `user?user=${userInfo.login}`
 				});
 		}else {
 				response.json({
@@ -95,8 +102,30 @@ app.post("/user/login", jsonParser, async function (request, response) {
 		}
 });
 
+app.get("/user/db/files", async function (request, response){
+	console.log(request.session.username)
+	if(request.session.username == undefined){
+		response.redirect(`${config.protocol}://${config.ip}:${config.port}`);
+	}else{
+		let userId = await User.findAll({
+			where:{
+				login: request.session.username
+			}
+		});
+		userId = userId[0].dataValues.id;
+		console.log(userId)
+		//find all files of user
+		let files = await File.findAll({
+			where: { userId: userId}
+		});
+		console.log(files)
+		//return array of files
+		response.json(files);
+	}
+});
+
 app.get("/admin/db/log", async function (request, response){
-		if (request.session.role == "Admin"){
+		if (request.session.accessToLogs == true){
 		//get all logs and send them
 		log = await Log.findAll();
 				response.json(log);
@@ -126,7 +155,7 @@ app.post("/admin", jsonParser, async function (request, response){
 						//compare users by password
 						console.log(dbUser[0].dataValues)
 						if (dbUser[0].dataValues.password == request.body.password){
-								request.session.role = "Admin";
+								request.session.username = request.body.login;
 								response.json({"message": "user succesfully auntificated",
 												"url": "admin"});
 						}else {
@@ -148,9 +177,7 @@ async function writeLog (username, data){//for 1 line logging
 				},
 				limit: 1
 		});
-		if (!user[0].dataValues.id){
-				user.dataValues.id = 2;
-		}
 		var record = Log.build({ userId: user[0].dataValues.id, action: data});
 		await record.save();
-}
+};
+
