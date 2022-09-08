@@ -19,6 +19,7 @@ app.use(session({// adds sessions
 app.use(express.static(__dirname + "/static"));// adds static files
 
 app.get("/", function (request, response){
+		request.session.role = "Guest";
 		response.sendFile(__dirname + "/templates/login/index.html");
 });
 
@@ -28,17 +29,80 @@ app.get("/badUser", function( request, response) {
 
 app.get("/admin", function (request, response){
 		//check for admin
-		if(request.session.role == "admin"){
+		if(request.session.role == "Admin"){
 				response.sendFile(__dirname + "/templates/admin/index.html");
 		}else{
 				response.sendFile(__dirname + "/templates/badUser/index.html");
 		}
 });
 
+
+app.get("/user", function (request, response){
+		//check for admin
+		if(request.session.role != "Guest"){
+				response.sendFile(__dirname + "/templates/homepage/index.html");
+		}else{
+				response.sendFile(__dirname + "/templates/badUser/index.html");
+		}
+});
+
+app.post("/user/reg", jsonParser, async function (request, response) {
+		let newUserInfo = {
+				login: request.body.login,
+				password: request.body.password
+		};
+		//check for being unique
+		result = await User.findAll({
+				where: {
+						login: newUserInfo.login
+				},
+				limit: 1
+		});
+		if(result[0]){//find user with the same name
+				response.json({"message": "such user already exists, please use another login"});
+		} else{
+				//create new user (user role by default)
+				request.session.role = "User"
+				var record = User.build({ login: newUserInfo.login, password: newUserInfo.password, roleId: 3});
+				await record.save();
+				response.json({"message": "user succesfully registred", "url": "user/home"});
+				writeLog(newUserInfo.login, "was succesfully registred");
+		}
+});
+
+app.post("/user/login", jsonParser, async function (request, response) {
+		let userInfo = {
+				login: request.body.login,
+				password: request.body.password
+		};
+		result = await User.findAll({//get the same user from db to compare
+				where: {
+						login: userInfo.login
+				},
+				limit: 1
+		});
+		if (result[0] || result[0].password == userInfo.password){//there is such user so check the passwords
+				request.session.role = "User"
+				response.json({
+						"message": "password is correct. press the 'ok' to move to the homepage",
+						"url": "user"
+				});
+		}else {
+				response.json({
+						"message": "wrong password or user with such login does not exist",
+						"url": ""
+				});
+		}
+});
+
 app.get("/admin/db/log", async function (request, response){
+		if (request.session.role == "Admin"){
 		//get all logs and send them
 		log = await Log.findAll();
-		response.json(log);
+				response.json(log);
+		} else {
+				response.send({"message": "access denied"});
+		}
 });
 
 app.post("/admin", jsonParser, async function (request, response){
@@ -62,7 +126,7 @@ app.post("/admin", jsonParser, async function (request, response){
 						//compare users by password
 						console.log(dbUser[0].dataValues)
 						if (dbUser[0].dataValues.password == request.body.password){
-								request.session.role = "admin";
+								request.session.role = "Admin";
 								response.json({"message": "user succesfully auntificated",
 												"url": "admin"});
 						}else {

@@ -7,6 +7,9 @@
 body {
 		background-color: #99ccff;
 		height: 100vh;
+}
+
+#body {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -32,6 +35,10 @@ header h1 {
 		background-color: #99ccff;
 		border-radius: 1em;
 		padding: 0 1em;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 }
 
 header a, header button {
@@ -97,6 +104,31 @@ header a, header button {
 		text-align: center;
 }
 
+#filesUl {
+		position: absolute;
+		top: 48px;
+		left: 0;
+		background-color: #ffffcc;
+		padding: 0.5em;
+		margin: 4px;
+		border-radius: 1em;
+		list-style: none;
+		width: 10em;
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+}
+
+.fileLi {
+		background-color: #99ccff;
+		margin: 4px;
+		padding: 0.5em;
+		border-radius: 1em;
+		width: 7em;
+		overflow: hidden;
+}
+
+
 #main {
 		position: absolute;
 		right: 0;
@@ -110,6 +142,52 @@ header a, header button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+}
+
+#editor {
+		position: relative;
+		left: calc(10em + 8px + 1em);
+		top: 48px;
+		width: calc(100vw - 11em - 8px - 8px - 1em);
+		background-color: #ffffcc;
+		height: calc(100vh - 48px - 8px - 1em);
+		margin: 4px;
+		padding: 0.5em;
+		border-radius: 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+}
+
+#editor h3 {
+		position: absolute;
+		top: 0;
+}
+
+#editor #textEditor{
+		position: absolute;
+		width: calc(50% - 1em - 8px);
+		height: calc(100% - 40px);
+		bottom: 0;
+		left: 0;
+		padding: 0.5em;
+		margin: 4px;
+		border-radius: 1em;
+		resize: none;
+		background-color: #99ccff;
+}
+
+#editor #textVisual{
+		position: absolute;
+		width: calc(50% - 1em - 8px);
+		height: calc(100% - 44px);
+		bottom: 0;
+		right: 0;
+		padding: 0.5em;
+		margin: 4px;
+		border-radius: 1em;
+		resize: none;
+		background-color: #99ccff;
 }
 
 #main table {
@@ -144,3 +222,5 @@ header a, header button {
 		font-weight: bold;
 		text-align: center;
 }
+
+
