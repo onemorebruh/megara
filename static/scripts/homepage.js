@@ -25,6 +25,7 @@ var newFileButton = document.getElementById("newFileButton").addEventListener("c
         filesUl.insertAdjacentHTML("afterend", `
                 <ul id="editorButtons">
                         <li class="editorButton" id="saveButton">save file</li>
+                        <li class="editorButton" id="deleteButton">delete file</li>
                 </ul>
         `);
         editor.insertAdjacentHTML("afterbegin", `

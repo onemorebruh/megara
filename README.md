@@ -73,6 +73,39 @@ example of response:
 ```
 
 ---
+type:  get
+link: /admin/db/user
+
+example of response:
+``` js 
+[
+		{
+		id: 1,
+		login: 'aboba',
+		password: "aboba",
+		time: "2022-09-07T08:13:55.000Z",
+		},
+]
+```
+
+---
+type:  get
+link: /admin/db/file
+
+example of response:
+``` js 
+[
+		{
+		id: 1,
+		name: "testfile",,
+		text: 'test',
+		userId: 1,
+		time: "2022-09-07T08:13:55.000Z",
+		},
+]
+```
+
+---
 type: post
 link /user/reg
 
@@ -151,8 +184,9 @@ example of response:
 - - [x] basic authorization
 - [ ] create admin panel
 - - [x] add table generator for logs
-- - [ ] add table generator for users
-- - [ ] add table generator for files
+- - [x] add table generator for users
+- - [x] add table generator for files
+- - [x] make table close each time admin opens new table
 - [x] create database's schemas
 - - [x] make no roles just check for access by user
 - [ ] API
@@ -161,8 +195,8 @@ example of response:
 - - [x] authorization as admin
 - - [ ] admin db requests
 - - - [x] get logs
-- - - [ ] get files
-- - - [ ] get users
+- - - [x] get files
+- - - [x] get users
 - - - [ ] delete user
 - - - [ ] delete file
 - - - [ ] edit user

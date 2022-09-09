@@ -160,6 +160,41 @@ app.get("/admin/db/log", async function (request, response){
 	}
 });
 
+app.get("/admin/db/user", async function (request, response){
+	//check if user is an admin
+	let user = await User.findAll({
+		where: {
+			login: request.session.username
+		}
+	});
+	user = user[0].dataValues;
+	if (user.accessToLogs == true){
+		//get all logs and send them
+		log = await User.findAll();
+		response.json(log);
+	} else {
+			response.send({"message": "access denied"});
+	}
+});
+
+app.get("/admin/db/file", async function (request, response){
+	//check if user is an admin
+	let user = await User.findAll({
+		where: {
+			login: request.session.username
+		}
+	});
+	user = user[0].dataValues;
+	if (user.accessToLogs == true){
+		//get all logs and send them
+		log = await File.findAll();
+		response.json(log);
+	} else {
+			response.send({"message": "access denied"});
+	}
+});
+
+
 app.post("/admin", jsonParser, async function (request, response){
 
 		//get request and send response
