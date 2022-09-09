@@ -20,7 +20,7 @@ megara is a simple cloud service written on nodejs
 ||-scripts		- contains all the frontend scripts
 |||-login.js	- frontend scripts of the login page
 |||-admin.js	- frontend scripts of the admin panel
-|||-homepage.js	- frontend scripts od the homepage
+|||-homepage.js	- frontend scripts of the homepage
 |-README.md		- this file
 |-node_modules	- dependencies
 |-models.js		- file with models and their's syncronization script
@@ -115,6 +115,24 @@ example of response:
 		url: "/user"
 }
 ```
+
+---
+
+type: get
+link: /user/db/files
+example of response:
+``` js
+[
+		{
+				id: 1,
+				name: "filename.txt"
+				text: "text",
+				blob: null,
+				createdAt: '2022-0908 15:00:42',
+				userId: 1,
+		},
+]
+```
 ## TODO
 
 - [ ] design
@@ -122,10 +140,11 @@ example of response:
 - - [x] design login page
 - - [x] design admin menu
 - - [x] design user's homepage
-- - [x] design text editor
+- - [ ] design text editor
 - - [ ] css animations
 - - [x] design bad user page
 - [ ] logic
+- - [x] requests of user(files of one user)
 - - [ ] hash passwords
 - - [ ] compare hashed passwords
 - - [ ] make wirte each action to the log
@@ -135,20 +154,22 @@ example of response:
 - - [ ] add table generator for users
 - - [ ] add table generator for files
 - [x] create database's schemas
-- - [ ] make no roles just check for access by user
+- - [x] make no roles just check for access by user
 - [ ] API
 - [x] registration
 - [x] authorization
 - - [x] authorization as admin
-- - [ ] db requests
+- - [ ] admin db requests
 - - - [x] get logs
 - - - [ ] get files
 - - - [ ] get users
 - - - [ ] delete user
 - - - [ ] delete file
-- - - [ ] delete role
 - - - [ ] edit user
 - - - [ ] edit file
+- [x] abbility to make new files
+- [ ] syntax highlight
+- [ ] abbility to modify files
 - [ ] made it mvc
 - [ ] pages
 - - [x] homepage

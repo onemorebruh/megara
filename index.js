@@ -71,7 +71,7 @@ app.post("/user/reg", jsonParser, async function (request, response) {
 				var record = User.build({ login: newUserInfo.login, password: newUserInfo.password, accessToLogs: 0, accessToUsers: 0, accessToFiles: 0});
 				await record.save();
 				request.session.username = newUserInfo.login;
-				response.json({"message": "user succesfully registred", "url": `user&user=${newUserInfo.login}`});
+				response.json({"message": "user succesfully registred", "url": `user?2user=${newUserInfo.login}`});
 				writeLog(newUserInfo.login, "was succesfully registred");
 		}
 });
@@ -102,6 +102,25 @@ app.post("/user/login", jsonParser, async function (request, response) {
 		}
 });
 
+app.post("/user/db/saveFile", jsonParser, async function(request, response){
+	if(request.session.username){
+		//get userId
+		userId = await User.findAll({
+			where: {
+				login: request.session.username
+			}
+		});
+		userId = userId[0].id
+		//get request
+		let file = request.body
+		file.userId = userId
+		//build file
+		record = await File.build(file);
+		record.save();
+		writeLog(request.session.username, "saved file");
+	}
+})
+
 app.get("/user/db/files", async function (request, response){
 	console.log(request.session.username)
 	if(request.session.username == undefined){
@@ -125,13 +144,20 @@ app.get("/user/db/files", async function (request, response){
 });
 
 app.get("/admin/db/log", async function (request, response){
-		if (request.session.accessToLogs == true){
+	//check if user is an admin
+	let user = await User.findAll({
+		where: {
+			login: request.session.username
+		}
+	});
+	user = user[0].dataValues;
+	if (user.accessToLogs == true){
 		//get all logs and send them
 		log = await Log.findAll();
-				response.json(log);
-		} else {
-				response.send({"message": "access denied"});
-		}
+		response.json(log);
+	} else {
+			response.send({"message": "access denied"});
+	}
 });
 
 app.post("/admin", jsonParser, async function (request, response){

@@ -70,11 +70,11 @@ const File = sequelize.define("file", {
 
 Log.belongsTo(User);
 File.belongsTo(User);
-
+/*
 sequelize.sync({force: true}).then(result=>{
 		console.log(result);
 }).catch(err=> console.log(err));
-
+*/
 module.exports.File = File;
 module.exports.User = User;
 module.exports.Log = Log;
