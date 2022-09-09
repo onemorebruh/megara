@@ -20,8 +20,8 @@ document.getElementById("databaseLiLog").addEventListener("click", async functio
 			try{
 				document.getElementById("table").remove();
 				} catch{
-				document.getElementById("main").insertAdjacentHTML("afterbegin", table);
-			}
+					document.getElementById("main").insertAdjacentHTML("afterbegin", table);
+				}
         }else {
                 alert(response.status);
 		} 
@@ -48,8 +48,8 @@ document.getElementById("databaseLiUser").addEventListener("click", async functi
 			try{
 				document.getElementById("table").remove();
 				} catch{
-				document.getElementById("main").insertAdjacentHTML("afterbegin", table);
 			}
+			document.getElementById("main").insertAdjacentHTML("afterbegin", table);
 	}else {
 			alert(response.status);
 	} 
@@ -76,8 +76,8 @@ document.getElementById("databaseLiFile").addEventListener("click", async functi
 			try{
 				document.getElementById("table").remove();
 				} catch{
-				document.getElementById("main").insertAdjacentHTML("afterbegin", table);
 			}
+			document.getElementById("main").insertAdjacentHTML("afterbegin", table);
 	}else {
 			alert(response.status);
 	} 

@@ -123,7 +123,7 @@ header a, header button {
 
 #editorButtons {
 	position: absolute;
-	top: calc(48px + 10em + 1em + 8px);
+	top: calc(48px + 20em + 1em + 8px);
 	left: 0;
 	background-color: #ffffcc;
 	padding: 0.5em;

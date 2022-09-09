@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const { where } = require("sequelize");
+const bcrypt = require("bcrypt")
 const app = express();
 const jsonParser = express.json();
 const Sequelize = require("sequelize");
@@ -114,11 +115,43 @@ app.post("/user/db/saveFile", jsonParser, async function(request, response){
 		//get request
 		let file = request.body
 		file.userId = userId
-		//build file
-		record = await File.build(file);
-		record.save();
-		writeLog(request.session.username, "saved file");
+		//try to find same file
+		oldRecord = await File.findAll({
+			where: {
+				userId: file.userId,
+				name: file.name,
+			}
+		})
+		if (!oldRecord[0]){
+			//build file
+			record = await File.build(file);
+			record.save();
+			writeLog(request.session.username, "saved file");
+		}else {
+			File.update({
+				text: file.text
+			},
+			{where:{
+				userId: file.userId,
+				name: file.name
+			}})
+		}
+
+		response.json({"message": "file sucessfully saved"})
 	}
+})
+
+app.delete("/user/db/deleteFile", jsonParser, async function(request, response){
+	//get file by id
+	console.log("delete works")
+	let dataToDelete = request.body;
+	//delete
+	File.destroy({
+		where: {
+			id: dataToDelete.id
+		}
+	});
+	response.json({"message": `file ${dataToDelete.name} was successfully deleted`});
 })
 
 app.get("/user/db/files", async function (request, response){

@@ -158,13 +158,59 @@ example of response:
 [
 		{
 				id: 1,
-				name: "filename.txt"
+				name: "filename.txt",
 				text: "text",
 				blob: null,
 				createdAt: '2022-0908 15:00:42',
 				userId: 1,
 		},
 ]
+```
+
+---
+
+type: get
+link: /user/db/saveFile
+example of request:
+``` js
+[
+		{
+				id: 1,
+				name: "filename.txt",
+				text: "text",
+				blob: null,
+				userId: 1,
+		},
+]
+```
+examlpe of response: 
+``` js
+{
+	"message": "file successfully saved"
+}
+```
+
+
+---
+
+type: delete
+link: /user/db/deleteFile
+example of request:
+``` js
+[
+		{
+				id: 1,
+				name: "filename.txt",
+				text: "text",
+				userId: 1,
+		},
+]
+```
+examlpe of response: 
+``` js
+{
+	"message": "file successfully saved"
+}
 ```
 ## TODO
 
@@ -182,7 +228,7 @@ example of response:
 - - [ ] compare hashed passwords
 - - [ ] make wirte each action to the log
 - - [x] basic authorization
-- [ ] create admin panel
+- [x] create admin panel
 - - [x] add table generator for logs
 - - [x] add table generator for users
 - - [x] add table generator for files
@@ -203,7 +249,8 @@ example of response:
 - - - [ ] edit file
 - [x] abbility to make new files
 - [ ] syntax highlight
-- [ ] abbility to modify files
+- [x] abbility to modify files
+- [x] abbility to delete files
 - [ ] made it mvc
 - [ ] pages
 - - [x] homepage
