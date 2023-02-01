@@ -2,6 +2,7 @@ const config = require("./config");
 
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 const Admin = require("./models/adminuser");
 var username = process.argv[2];
 var salt = bcrypt.genSaltSync(10);
@@ -20,7 +21,7 @@ async function main(){
     await admin.save(function(err){
         if(err) return console.log(err);
     });
-    await console.log("succes")
+    await console.log("success")
     setTimeout(function (){process.exit(1)}, 5000); 
 }
 main();

@@ -9,21 +9,26 @@ const User = require("../models/users");
 const Admin = require("../models/adminuser");
 const Log = require("../models/log");
 const adminController = require("../controllers/adminController");
+const Logger = require("../Logger.js");
+
+const logger = new Logger.Logger();
 
 adminRouter.post("/reg", jsonPaser, adminController.reg);
 
 adminRouter.post("/login", jsonPaser, adminController.login);
 
-adminRouter.get("/", function(req, res) {
-	var device = req.get("user-agent");
-	if (!req.session.username){//redirect
-		res.redirect(`${config.protocol}://${config.ip}:${config.port}/admin/login`)
+adminRouter.get("/", function(request, response) {
+  var device = request.get("user-agent");
+  var date = new Date().toISOString();
+	if (!request.session.username){//redirect
+    response.redirect(`${config.protocol}://${config.ip}:${config.port}/admin/login`)
+    logger.log(`${date} ${request.headers['x-forwarded-for']} tried to connect as admin\n`)
 	} else {
-		logAction(req.session.username, "loged as admin");
+    logger.log(`${date} ${request.session.username} loged as admin\n`);
 		if (device.includes("Mobile")) {
-			res.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/mobile.html");
+			response.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/mobile.html");
 		} else {
-			res.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/desktop.html");
+			response.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/admin/desktop.html");
 		}
 	}
 });
@@ -36,12 +41,3 @@ module.exports = adminRouter;
 
 
 
-function logAction (user, action){
-	try{
-		let time = Date();
-		const log = new Log({username: user, action: action, time: time})
-		log.save();
-	} catch (err){
-		console.log(err)
-	}
-}

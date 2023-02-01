@@ -1,8 +1,8 @@
 var config = 
 		{
 		port: 3000,
-		ip: "192.168.0.101",
-		dburl: "mongodb://localhost:27017/megara",
+		ip: "192.168.0.103",
+      dburl: "mongodb://192.168.0.103:27017/megara",
 		signature: "megara",
 		protocol: 'http'
 		};

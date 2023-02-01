@@ -52,13 +52,3 @@ app.use(express.static(__dirname + "/static"));
 app.listen(config.port, config.ip );
 
 module.exports.app = app;
-
-function logAction (user, action){
-	try{
-		let time = Date();
-		const log = new Log({username: user, action: action, time: time})
-		log.save();
-	} catch (err){
-		console.log(err)
-	}
-}

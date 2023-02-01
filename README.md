@@ -233,7 +233,7 @@ deletes files via admin page
 - [x] admin tables templates
 - [x] add animations
 - [x] make admin panel's buttons look better
-- [ ] redesign
+- [ ] redesign a bit
 
 [x] admin
 - [x] admin model in database
@@ -245,7 +245,7 @@ deletes files via admin page
 - - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
 - [ ] rewrite it so admin will see only what it should see but not all tables
-- [ ] log more activities
+- [x] log more activities
 
 [x] logic
 - [x] check for existing in db when registration
@@ -273,6 +273,7 @@ deletes files via admin page
 - [x] automatically add extention after filename if there is no extention. example foo -> foo.txt
 - [ ] add photos and videos by drag n drop
 - [x] get_started script
+- [ ] move public from controllers
 
 [x] tests
 - [x] test database

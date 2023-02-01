@@ -13,29 +13,29 @@ const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const fs = require('fs');
 
-exports.read = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
-	var readingObject = req.body.readingObject;
+exports.read = async function(request, response){
+  if(!request.body) return response.sendStatus(400);
+	var readingObject = request.body.readingObject;
 	var sortedFiles = [];
 	switch(readingObject){
 		case "user":
 			try{
 				var users = await User.find().exec();
-				res.json({
+				response.json({
 					array: users
 				});
 			} catch {
-				return res.sendStatus(400);
+				return response.sendStatus(400);
 			}
 			break
 		case "admin":
 			try{
 				var admins = await Admin.find().exec();
-				res.json({
+				response.json({
 					array: admins
 				});
 			} catch {
-				return res.sendStatus(400);
+				return response.sendStatus(400);
 			}
 			break
 		case "file":
@@ -48,22 +48,22 @@ exports.read = async function(req, res){
 						sortedFiles.push({_id: id, file: doc})
 					})
 				})
-				res.json({
+				response.json({
 					array: sortedFiles
 				});
 			} catch (err) {
 				console.log(err)
-				return res.sendStatus(400);
+				return response.sendStatus(400);
 			}
 			break
 	}
 }
 
-exports.delete = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
-	let id = req.body.id;
-	let filename =req.body.filename
-	let database = req.body.database;
+exports.delete = async function(request, response){
+	if(!request.body) return response.sendStatus(400);
+	let id = request.body.id;
+	let filename =request.body.filename
+	let database = request.body.database;
 	let message = ""
 	let fromDb;
 	let fileArray;
@@ -90,21 +90,21 @@ exports.delete = async function(req, res){
 			message = "file is succesfully deleted"
 			break
 		default:
-			console.log("bruh")
+			break
 	}
-	res.json({
+	response.json({
 		message: message
 	})
 }
 
-exports.edit = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
-	let id = req.body.id;
-	let filename = req.body.filename
-	let username = req.body.username;
-	let database = req.body.database;
-	let password = req.body.password;
-	let email = req.body.email;
+exports.edit = async function(request, response){
+	if(!request.body) return response.sendStatus(400);
+	let id = request.body.id;
+	let filename = request.body.filename
+	let username = request.body.username;
+	let database = request.body.database;
+	let password = request.body.password;
+	let email = request.body.email;
 	let message = ""
 	let fromDb;
 	var salt = bcrypt.genSaltSync(10);
@@ -119,20 +119,11 @@ exports.edit = async function(req, res){
 			message = "admin is succesfully updated"
 			break
 		default:
-			console.log("bruh")
+			break
 	}
-	res.json({
+	response.json({
 		message: message
 	})
 }
 
-
-function logAction (user, action){
-	try{
-		let time = Date();
-		const log = new Log({username: user, action: action, time: time})
-		log.save();
-	} catch (err){
-		console.log(err)
-	}
-}
+   

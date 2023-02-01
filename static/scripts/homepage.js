@@ -25,7 +25,7 @@ newFileButton.addEventListener("click", function (e) {// shows text editor
     editor.style.display = 'block';
 })
 
-findFileButton.addEventListener("click", function (e) {h
+findFileButton.addEventListener("click", function (e) {
     e.preventDefault();
     if(findForm.style.display == 'block'){//hides search if it is visible
         findForm.style.display = 'none';

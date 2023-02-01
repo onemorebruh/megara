@@ -13,12 +13,12 @@ const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const fs = require('fs');
 
-exports.reg= async function(req, res){
-	if(!req.body) return res.sendStatus(400);
+exports.reg= async function(request, response){
+	if(!require.body) return response.sendStatus(400);
 	let username, email, password
-    username = req.body.username;
-	email = req.body.email;
-	password = req.body.password;
+    username = require.body.username;
+	email = require.body.email;
+	password = require.body.password;
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(password, salt)
 	//TODO validation
@@ -30,54 +30,43 @@ exports.reg= async function(req, res){
 		user.save(function(err){
 			if(err) return console.log(err);
 		});
-		req.session.username = username
-		res.json({
+		request.session.username = username
+		response.json({
 			url: `${config.protocol}://${config.ip}:${config.port}/user?username=${username}`});
 	} else {
-		res.json({
+		response.json({
 			"message": "such user already exists",
 			'url': `${config.protocol}://${config.ip}:${config.port}/user/bdusr`
 		});
 	}
 }
 
-exports.login = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
+exports.login = async function(request, response){
+	if(!request.body) return response.sendStatus(400);
 	// gather data
 	let username, email, password
-    username = req.body.username;
-	email = req.body.email;
-	password = req.body.password;
+    username = request.body.username;
+	email = request.body.email;
+	password = request.body.password;
 	// find user in db
 	const fromDb = await User.findOne({username}).exec();
 	// compare user from form and from db
 	try{
 		areTheSame = await bcrypt.compareSync(password, fromDb.password);
 		if (areTheSame === true && email ==fromDb.email) {
-			req.session.username = username
-			req.session._id = fromDb._id
-			res.json({
+			request.session.username = username
+			request.session._id = fromDb._id
+			response.json({
 				'url': `${config.protocol}://${config.ip}:${config.port}/user?username=${username}`});
 		} else {
-			res.json({
+			response.json({
 				'url': `${config.protocol}://${config.ip}:${config.port}/user/bdusr`
 			});
 		}
 
 	} catch {
-		res.json({
+		response.json({
 			'url': `${config.protocol}://${config.ip}:${config.port}/user/bdusr`
 		});
-	}
-}
-
-
-function logAction (user, action){
-	try{
-		let time = Date();
-		const log = new Log({username: user, action: action, time: time})
-		log.save();
-	} catch (err){
-		console.log(err)
 	}
 }

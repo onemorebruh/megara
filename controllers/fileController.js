@@ -12,13 +12,17 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const fs = require('fs');
+const Logger = require("../Logger");
 
-exports.new = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
+const logger = new Logger.Logger();
+
+exports.new = async function(request, response){
+  var date = new Date().toISOString();
+	if(!request.body) return response.sendStatus(400);
 	let username, text, filename, message, docs;
-    username = req.body.username;
-	text = req.body.text;
-	filename = req.body.filename;
+    username = request.body.username;
+	text = request.body.text;
+	filename = request.body.filename;
 	//check for extention
 	if(filename.includes(".") == false){
 		filename += ".txt"
@@ -44,55 +48,53 @@ exports.new = async function(req, res){
 					message = 'file is succesfully saved';}
 					fromDb.documents.push(`${__dirname}/public/${username}/${filename}`)
 					await User.findByIdAndUpdate(fromDb._id, {documents: fromDb.documents}).exec();
-					console.log(message)
-				res.json({message: message})
+				response.json({message: message})
 			} catch (err){
-				console.log(`error -> ${err}`);
+				logger.log(`${date} ${err}`);
 				setTimeout(() => {
 					message = 'something is wrong with your file. it is not saved :('
-					res.json({message: message})
+					response.json({message: message})
 				}, 30)
 			}
-			console.log(message)
 
 		}
 		//send message back
-	} else {console.log(message)
-		res.json({
+	} else {
+		response.json({
 			message: "something is wrong with your username, you have to use it's  website to save files"
 		})
 	}
 
 	}
 
-exports.delete = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
-	let filename = req.body.filename;
-	let username = req.body.username;
+exports.delete = async function(request, response){
+  var date = new Date().toISOString();
+	if(!request.body) return response.sendStatus(400);
+	let filename = request.body.filename;
+	let username = request.body.username;
 	const fromDb = await User.findOne({username}).exec();
 	docs = fromDb.documents
 	docs.forEach( function (doc, i, docs){
-		console.log(doc, `${__dirname}/${username}/${filename}`)
-		if(doc == `${__dirname}/public/${username}/${filename}`){
-			console.log(true, i)
+		logger.log(`${date} ${username} deleted file ${__dirname}/${username}/${filename}`)
+    if(doc == `${__dirname}/public/${username}/${filename}`){//search for file in folder
 			docs = docs.splice(i, 1)
 		} else{
-			console.log(false, i)
 		}
 	})
 	User.updateOne({username: username}, {documents: docs}, function(err, result){
-		if(err) return console.log(err);
+		if(err) return logger.error(`${date} ${err}`);
 	});
 	fs.rmSync(`${__dirname}/public/${username}/${filename}`)
-	res.json({
+	response.json({
 		message: "file was succesfully deleted"
 	});
 }
 
-exports.edit = async function(req, res){
-	if(!req.body) return res.sendStatus(400);
-	let filename = req.body.filename;
-	let username = req.body.username;
+exports.edit = async function(request, response){
+  var date = new Date().toISOString();
+	if(!request.body) return response.sendStatus(400);
+	let filename = request.body.filename;
+	let username = request.body.username;
 	let filedata;
 	const fromDb = await User.findOne({username}).exec();
 	try{
@@ -106,12 +108,11 @@ exports.edit = async function(req, res){
 				filedata = "empty file"
 			}
 		})
-		res.json({
+		response.json({
 			text: filedata,
-			binary: undefined
 		});
 	} catch {
-		console.log(username, fromDb)
+	  logger.error(`${date} user ${username} have unseccesfully tried to edit ${fromDb}`)
 		res.json({
 			text: "something is wrong with file. please try again"
 		})
@@ -119,12 +120,3 @@ exports.edit = async function(req, res){
 }
 
 
-function logAction (user, action){
-	try{
-		let time = Date();
-		const log = new Log({username: user, action: action, time: time})
-		log.save();
-	} catch (err){
-		console.log(err)
-	}
-}
