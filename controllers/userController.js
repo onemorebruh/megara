@@ -21,7 +21,6 @@ exports.reg= async function(request, response){
 	password = require.body.password;
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(password, salt)
-	//TODO validation
 	//check for existing
 	const fromDb = await User.findOne({email}).exec();
 	if (fromDb === null){

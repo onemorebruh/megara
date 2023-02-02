@@ -19,6 +19,13 @@ megara is a simple cloud server for easy saving data on your local network
 
 
 ## updates
+
+### 8325e - refactored admin panel
+
+now you can sort files by owner
+
+reading uses gets but not posts
+
 ### b2f1c - added file model and removed abbility so save files in directories
 
 ### 67ee7 - cahnged api 

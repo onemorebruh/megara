@@ -55,7 +55,7 @@ exports.new = async function(request, response){
 
 	}
 
-exports.delete = async function(request, response){//TODO fix it
+exports.delete = async function(request, response){
   var date = new Date().toISOString();
 	if(!request.body) return response.sendStatus(400);
 	let filename = request.body.filename;

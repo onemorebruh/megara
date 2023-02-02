@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/users");
 const Admin = require("../models/adminuser");
 const Log = require("../models/log");
+const File = require("../models/file");
 const express = require("express");
 const app = express();
 const jsonPaser = express.json();
@@ -15,8 +16,9 @@ const fs = require('fs');
 
 exports.read = async function(request, response){
   if(!request.body) return response.sendStatus(400);
-	var readingObject = request.body.readingObject;
-	var sortedFiles = [];
+  var urlString = request.url
+  var readingObject = urlString.split("?")[1];
+	console.log(readingObject);
 	switch(readingObject){
 		case "user":
 			try{
@@ -40,16 +42,9 @@ exports.read = async function(request, response){
 			break
 		case "file":
 			try{
-				users = await User.find().exec();
-				users.forEach(function(doc, i , users){
-					let files = doc.documents;
-					let id = doc._id
-					files.forEach(function (doc, i , files){
-						sortedFiles.push({_id: id, file: doc})
-					})
-				})
+				let files = await File.find().exec();
 				response.json({
-					array: sortedFiles
+					array: files
 				});
 			} catch (err) {
 				console.log(err)

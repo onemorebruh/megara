@@ -84,7 +84,48 @@ document.getElementById("adminsPanel").addEventListener("keyup", function (e){
     }
 })
 
-//TODO rewrite filePanel
+// filePanel
+document.getElementById("filesPanel").addEventListener("keyup", function(event){
+  event.preventDefault;
+  let name="", extention="", owner="";
+  name = document.getElementById("fileFilters__Name").value;
+  owner = document.getElementById("fileFilters__Owner").value;
+  extention = document.getElementById("fileFilters__Extention").value;
+  try {
+    filePanel = document.getElementById("filesTable");
+    filePanel.remove();
+    document.getElementById("filesPanel").insertAdjacentHTML("beforeend", `
+      <div id="filesTable" class="table"></div>
+    `);
+  } catch (err){
+    console.log(err);
+  } finally {
+    let fileResults = ""
+    fileArray.forEach((doc, i, fileArray) => {
+      let doc_id = doc._id;
+      console.log(doc)
+      let docName = doc.filename;
+      let docOwner = doc.owner;
+      if (docName.includes(name)){
+        if (docOwner.includes(owner)){
+          if (docName.includes(extention)){
+            fileResults += `
+              <div id="${doc_id}"
+                <span>${docName}</span>
+                <span onclick="DBdelete('${doc_id}, file, ${docName}')">
+                  ${SVG.trash}
+                </span>
+              </div>`;//somehow all fileResults have the same id
+          }
+        }
+      }
+    })
+    let filesPanel = document.getElementById("filesTable");
+    filesPanel.insertAdjacentHTML("beforeend", fileResults);
+  }
+});
+      
+  
 
 
 function newAdmin(){
@@ -121,7 +162,7 @@ function DBdelete (id, database, filename="") {
         filename: filename,
     });
     let req = new XMLHttpRequest();
-    req.open("POST", "/api/DB/delete", true);   
+    req.open("DELETE", "/api/DB/delete", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -154,21 +195,18 @@ function DBedit (id, database) {
 
 
 async function readFromDB (readingObject) {//load filenames from db
-    var file = JSON.stringify({
-        readingObject: readingObject
-    })
-    let req = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     let sortedArray = [];
-    req.open("POST", "/api/DB/read", true);   
-    req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function () {
-        let answer = JSON.parse(req.response);
+    request.open("GET", `/api/DB/read?${readingObject}`, true);   
+    request.setRequestHeader("Content-Type", "application/json");
+    request.addEventListener("load", function () {
+        let answer = JSON.parse(request.response);
         let array = [];
         array = answer.array;
         array.forEach(function(doc, i, array) {
             sortedArray.push(doc);
         });
     })
-    req.send(file);
+    request.send();
     return sortedArray;
 }
