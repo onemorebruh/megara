@@ -10,12 +10,12 @@ exports.Logger = class Logger{
 
   log(message){
     //write message to log file
-    fs.appendFileSync(`${__dirname}/log/logs.log`, message);
+    fs.appendFileSync(`${__dirname}/log/logs.log`, message + '\n');
   }
 
   error(message){
     //write message to error file
-    fs.appendFileSync(`${__dirname}/log/error.log`, message);
+    fs.appendFileSync(`${__dirname}/log/error.log`, message + '\n');
   }
 
 }

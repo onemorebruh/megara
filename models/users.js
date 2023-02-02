@@ -14,8 +14,8 @@ const userScheme = new Schema({
         type :String,
         required: true,
     },
-    documents: [String],
+    documents: [mongoose.Types.ObjectId],
 },
 { versionKey: false })
 
-module.exports = mongoose.model("Users", userScheme)
+module.exports = mongoose.model("User", userScheme)

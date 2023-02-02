@@ -84,38 +84,7 @@ document.getElementById("adminsPanel").addEventListener("keyup", function (e){
     }
 })
 
-document.getElementById("filesPanel").addEventListener("keyup", function (e){
-    e.preventDefault;
-    let name ="", extention ="";
-    name = document.getElementById("fileFilterName").value;
-    extention = document.getElementById("FilterExtention").value;
-    try {
-        filePanel = document.getElementById("filesTable");
-        filePanel.remove();
-        document.getElementById("filesPanel").insertAdjacentHTML("beforeend", `<div id="filesTable" class="table"></div>`)
-    } catch (err){
-        console.log(err)
-    } finally {
-        let filesResults ="";
-        fileArray.forEach(function (doc, i, fileArray){
-            let doc_id = doc._id
-            console.log(doc)
-            let docName = doc.file; //splits and get the last element of array
-            if (docName.includes(name)){
-                if (docName.includes(extention)){
-                    filesResults += `<div id="${doc_id}">
-                                        <span>${docName}</span>
-                                        <span onclick="DBdelete('${doc_id}', 'file', '${docName}')">
-                                            ${SVG.trash}
-                                        </span>
-                                    </div>`
-                }
-            }
-        });
-        filesPanel = document.getElementById("filesTable");
-        filesPanel.insertAdjacentHTML("beforeend", filesResults);
-    }
-})
+//TODO rewrite filePanel
 
 
 function newAdmin(){

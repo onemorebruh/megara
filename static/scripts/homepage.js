@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
         username: username
     })
     let req = new XMLHttpRequest();
-    req.open("POST", "/api/readFiles", true);   
+    req.open("GET", "/api/readFiles", true);   
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
         let answer = JSON.parse(req.response);
@@ -74,11 +74,10 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
         // visualize each file
         arrayOfDocumentsFromDB.forEach(function(doc, i, arrayOfDocumentsFromDB) {
             //split
-            doc = doc.split("/");
-            docName = doc[doc.length - 1]
+            docName = doc.filename;
             //visualize
             //source -> templates/cards.html                    file object template
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="${docName}">
+            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="file${i}">
                                                                 <p class="fileName">${docName}</p>
                                                                 <div class="fileImg">${SVG.txt}</div>
                                                                 <div class="editButtons">
@@ -149,9 +148,11 @@ function deleteFile(filename, docName){
     req.addEventListener("load", function () {
         console.log(req.response);
         alert("file is deleted");
-        document.getElementById(docName).classList.add("deleted");
-        return false
-        });
+        document.getElementById(docName).style.display = "none";
+    });
+    setTimeout(() => {
+      location.reload()
+    }, 1000);
     req.send(message);
 }
 

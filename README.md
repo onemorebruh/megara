@@ -19,6 +19,8 @@ megara is a simple cloud server for easy saving data on your local network
 
 
 ## updates
+### b2f1c - added file model and removed abbility so save files in directories
+
 ### 67ee7 - cahnged api 
 
 | old api uri | new api uri     |

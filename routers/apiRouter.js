@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/users");
 const Admin = require("../models/adminuser");
 const Log = require("../models/log");
+const File = require("../models/file");
 
 const DBController = require("../controllers/DBController");
 const fileController = require("../controllers/fileController");
@@ -16,16 +17,17 @@ apiRouter.post("/file/new", jsonPaser, fileController.new);
 
 apiRouter.post("/DB/read", jsonPaser, DBController.read);
 
-apiRouter.post("/readFiles", jsonPaser, async function(req, res){
-	if(!req.body) return res.sendStatus(400);
+apiRouter.get("/readFiles", jsonPaser, async function(request, response){
+	if(!request.body) return response.sendStatus(400);
 	//get data from db to show documents
-	try{
-		user = await User.findOne({username: req.session.username}).exec();
-		res.json({
-			documents: user.documents
+  try{
+    let user = await User.findOne({username: request.session.username});
+    let files = await File.find({owner: user._id}).exec();
+		response.json({
+			documents: files
 		});
 	} catch {
-		return res.sendStatus(400);
+		return response.sendStatus(400);
 	}
 });
 
