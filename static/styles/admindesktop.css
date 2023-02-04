@@ -18,7 +18,7 @@ header {
 		top: 0;
 		width: 100%;
 		text-align: center;
-		background-color: #ff784e;
+		background-color: #99ccff;
 		box-shadow: 0 0 10px rgba(0,0,0,0.5);
 		font-size: 1.5em;
 }
@@ -39,12 +39,10 @@ table {
 input {
 		margin: 5px;
 		padding: 1em;
-		border-radius: 1em;
 }
 
 .panel {
-		background-color: #ff784e;
-		border-radius: 2em;
+		background-color: #99ccff;
 		padding: 0.25em;
 		margin: 0.5em;
 	  	width: 45em;
@@ -63,22 +61,23 @@ input {
 .table {
 	height: 240px;
 	background-color: #f5f5f5;
-	border-radius: 1em;
 	margin: 1em;
 	overflow-y: scroll;
 }
 
 svg {
-	fill: #f5f5f5;
+	fill: black;
 }
 
 .table div {
+  margin: 4px;
 	display: grid;
 	gap: 2px;
 	grid-template-columns: 35% 35% 10% 10% 10%;
 }
 
 #filesTable div {
+  margin: 4px;
 	display: grid;
 	gap: 2px;
 	grid-template-columns: 90% 10%;
@@ -88,18 +87,16 @@ svg {
 	margin: 0.5em;
 	height: 1em;
 	padding: 1em;
-	background-color: #b23c17;
-	color: #f5f5f5;
-	border-radius: 1em;
+	background-color: #99ccff;
+	color: black;
 }
 
 #newAdmin {
 	padding: 1em;
-	background-color: #b23c17;
-	color: #f5f5f5;
+	background-color: #99ccff;
+	color: black;
 	height: 1em;
 	margin: 1em;
-	border-radius: 1em;
 	width: 95%;
 	text-align: center;
 	padding-bottom: 2em;

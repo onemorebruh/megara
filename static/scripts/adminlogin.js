@@ -1,10 +1,10 @@
 var loginButton = document.getElementById("loginButton").addEventListener("click", async function (e) {
     e.preventDefault();
-    let username = document.getElementById("userName").value;
+    let username = document.getElementById("form__username").value;
     let isUsernameValid = await validation(username, "username");
     if (isUsernameValid == true){
 
-        let password = document.getElementById("userPassword").value;
+        let password = document.getElementById("form__password").value;
         let isPasswordValid = await validation(password, "password");
         if (isPasswordValid == true){
             let user = JSON.stringify({username: username, password: password});

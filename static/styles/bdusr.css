@@ -6,8 +6,7 @@ body {
 }
 div {
     aspect-ratio: 2/1;
-    background-color: #b23c17;
-    border-radius: 1em;
+    background-color: #99ccff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,5 +14,5 @@ div {
 }
 h1 {
     margin: 1em;
-    color: #f5f5f5;
+    color: black;
 }

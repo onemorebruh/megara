@@ -5,8 +5,8 @@ var username = url.searchParams.get("username")
 var userButton = document.getElementById('user');
 var newFileButton = document.getElementById("newFile");
 var findFileButton = document.getElementById('findFile');
-var editor = document.getElementById('editorMainDiv');
-var findForm = document.getElementById('searchLineDiv');
+var editor = document.getElementById('editor');
+var findForm = document.getElementById('searchLine');
 var arrayOfDocumentsFromDB = [];
 
 async function checkForUser (){
@@ -21,7 +21,7 @@ checkForUser();
 userButton.insertAdjacentHTML('afterbegin', `<span>${username}</span>`);//writes username
 
 newFileButton.addEventListener("click", function (e) {// shows text editor
-    e.preventDefault();
+  e.preventDefault();
     editor.style.display = 'block';
 })
 
@@ -35,12 +35,12 @@ findFileButton.addEventListener("click", function (e) {
     }
 })
 
-var saveButton = document.getElementById('SaveButton').addEventListener("click", async function (e) {//saves file
+var saveButton = document.getElementById('form__saveButton').addEventListener("click", async function (e) {//saves file
   e.preventDefault();
   
   var file = await JSON.stringify({//makes object
-      text: document.getElementById('text').value,
-      filename: document.getElementById("filename").value,
+      text: document.getElementById('textForm__text').value,
+      filename: document.getElementById("form__filename").value,
       username: username,
   });
   console.log(file)
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
             docName = doc.filename;
             //visualize
             //source -> templates/cards.html                    file object template
-            document.body.insertAdjacentHTML('beforeend', `<div class="fileDiv" id="file${i}">
-                                                                <p class="fileName">${docName}</p>
-                                                                <div class="fileImg">${SVG.txt}</div>
+            document.body.insertAdjacentHTML('beforeend', `<div class="file" id="file${i}" style="--i:${i}">
+                                                                <p class="file__name">${docName}</p>
+                                                                <div class="file__img">${SVG.txt}</div>
                                                                 <div class="editButtons">
                                                                     <button class="downloadButton" onclick="event.preventDefault; downloadFile('${docName}')">download</button>
                                                                     <button class="editButton" onclick="event.preventDefault; editFile('${docName}')">edit</button>
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async function readFromDBAndVisual
 document.addEventListener("keyup", function (e){// reloads search each time user pressed any button
     if (findForm.style.display == "block"){
         e.preventDefault;
-        var text = document.getElementById("dataToFind").value;
+        var text = document.getElementById("searchLine__input").value;
         search(text);
     }
 })
@@ -108,24 +108,23 @@ document.getElementById("user").addEventListener('click', function (e) {//opens 
     }
 })
 
-document.getElementById("logOut").addEventListener("click", function() {
+document.getElementById("userMenu__logOut").addEventListener("click", function() {
     let link = url_string.split("?")
     window.location.href = `${link[0]}/login`;
 })
 
 async function search(text){
     let results = "";
-    arrayOfDocumentsFromDB.forEach(function (doc, i, arrayOfDocumentsFromDB){
-        doc = doc.split("/");
-        var docName = doc[doc.length - 1]
-        if (docName.includes(text)){
+  arrayOfDocumentsFromDB.forEach(function (doc, i, arrayOfDocumentsFromDB){
+    docName = doc.filename;
+      if (docName.includes(text)){//TODO refactor with filter
             //source -> templates/searchResult.html
             results += `<div class="searchResult" id="${docName}">
                             <div class="resultSVG">${SVG.txt}</div>
                             <span class="resultName">${docName}</span>
-                            <button class="downloadButtonResult" onclick="event.preventDefault; downloadFile('${docName}')">download</button>
-                            <button class="editButtonResult" onclick="event.preventDefault; editFile('${docName}')">edit</button>
-                            <button class="deleteButtonResult" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button>
+                            <button class="buttonResult__download" onclick="event.preventDefault; downloadFile('${docName}')">download</button>
+                            <button class="buttonResult__edit" onclick="event.preventDefault; editFile('${docName}')">edit</button>
+                            <button class="buttonResult__delete" onclick="event.preventDefault; deleteFile('${docName}', '${docName}')">delete</button>
                         </div>`
         }
     }
@@ -193,7 +192,7 @@ function downloadFile(filename){
     req.send(message);
 
 }
-document.getElementById("editorMainDiv").addEventListener("drop", function(e){//rewrite
+document.getElementById("editor").addEventListener("drop", function(e){//TODO rewrite
     e.preventDefault;
     if (e.dataTransfer.items) {
         // Use DataTransferItemList interface to access the file(s)

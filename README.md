@@ -7,8 +7,21 @@
 megara is a simple cloud server for easy saving data on your local network
 
 ## design
-### colors
 
+| color   | place           |
+| ------- | --------------- |
+| #f5f5f5 | background      |
+| #99ccff | blocks          |
+| #808080 | shadnow         |
+| #f5f5f5 | buttons         |
+| black   | text in buttons |
+
+
+## updates
+
+###  - redesign
+
+old design
 | color   | place           |
 | ------- | --------------- |
 | #f5f5f5 | background      |
@@ -16,9 +29,6 @@ megara is a simple cloud server for easy saving data on your local network
 | #808080 | shadow          |
 | #b23c17 | buttons         |
 | #f5f5f5 | text in buttons |
-
-
-## updates
 
 ### 8325e - refactored admin panel
 
@@ -253,8 +263,8 @@ deletes files via admin page
 - - [x] delete lines via webpage
 - - - [x] delete files via web page
 - - [x] ability to add new admin ONLY via webpage
-- [ ] rewrite it so admin will see only what it should see but not all tables
 - [x] log more activities
+- [ ] add owner field to files
 
 [x] logic
 - [x] check for existing in db when registration
@@ -282,7 +292,6 @@ deletes files via admin page
 - [x] automatically add extention after filename if there is no extention. example foo -> foo.txt
 - [ ] add photos and videos by drag n drop
 - [x] get_started script
-- [ ] move public from controllers
 
 [x] tests
 - [x] test database

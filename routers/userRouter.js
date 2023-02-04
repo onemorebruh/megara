@@ -16,6 +16,7 @@ userRouter.post("/Reg", jsonPaser, userController.reg);
 userRouter.post("/login", jsonPaser, userController.login);
 
 userRouter.get("/login", function(request, response) {
+  request.session.username = "";
   response.sendFile(__dirname.slice(0, (__dirname.length -7)) + "/static/login/index.html");// __dirname.length -7 is dirname without controllers
 });
 

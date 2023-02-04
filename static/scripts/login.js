@@ -1,14 +1,14 @@
 
-var loginButton = document.getElementById("loginButton").addEventListener("click", async function (e) {
+var loginButton = document.getElementById("login__loginButton").addEventListener("click", async function (e) {
     e.preventDefault();
-    let username = document.getElementById("userName").value;
+    let username = document.getElementById("form__Name").value;
     let isUsernameValid = await validation(username, "username");
     if (isUsernameValid == true){
 
-        let email = document.getElementById("userEmail").value;
+        let email = document.getElementById("form__Email").value;
         let isEmailValid = await validation(username, "username");
         if (isEmailValid == true){
-            let password = document.getElementById("userPassword").value;
+            let password = document.getElementById("from__Password").value;
             let isPasswordValid = validation(username, "username");
             if (isPasswordValid == true){
                 let user = JSON.stringify({username: username, email: email, password: password});
@@ -35,16 +35,16 @@ var loginButton = document.getElementById("loginButton").addEventListener("click
         req.send('');
     }
 })
-var signupButton = document.getElementById("signupButton").addEventListener("click", async function (e) {
+var signupButton = document.getElementById("login__signupButton").addEventListener("click", async function (e) {
     e.preventDefault();
-    let username = document.getElementById("userName").value;
+    let username = document.getElementById("form__Name").value;
     let isUsernameValid = await validation(username, "username");
     if (isUsernameValid == true){
 
-        let email = document.getElementById("userEmail").value;
+        let email = document.getElementById("from__Email").value;
         let isEmailValid = await validation(email, "email");
         if (isEmailValid == true){
-            let password = document.getElementById("userPassword").value;
+            let password = document.getElementById("from__Password").value;
             let isPasswordValid = validation(password, "password");
             if (isPasswordValid == true){
                 let user = JSON.stringify({username: username, email: email, password: password});
